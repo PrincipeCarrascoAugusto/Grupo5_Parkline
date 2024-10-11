@@ -1,0 +1,322 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+
+//Log
+@widthlog: 100px;
+@heightlog: 80px;
+
+//Body
+@bodycolor: #666666;
+
+
+//GIF
+@widthgif: 290px;
+@heightgif: 260px;
+
+//Nav
+@navbar-bg: #000000;    /* Color de fondo negro */
+@navbar-text: #ffffff;  /* Color de texto blanco */
+@navbar-toggle-icon: #ffffff; /* Color del ícono del botón toggle */
+
+
+
+
+//Footer
+@background-color-footer: #020202;
+@text-color: #ffffff;
+@secondary-text-color: #8f9296;
+@icon-bg-color: #33383b;
+@icon-hover-bg-color: #3fe20d;
+@font-family: sans-serif;
+@font-bold: bold 16px @font-family;
+@h3-font: normal 36px "Cookie", cursive;
+@font-size-small: 14px;
+@icon-size: 25px;
+@icon-radius: 50%;
+@padding-footer: 50px 50px 60px 50px;
+@margin-footer-top: 80px;
+@link-hover-color: #ffffff;
+
+//Informacion
+@img-fondo: "/img";
+
+.info {
+    position: relative;
+    background: url('@{img-fondo}/estacio.PNG') no-repeat center center;
+    background-size: cover;
+    width: 100%;
+    height: 380px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    overflow: hidden;
+  
+    // Superposición oscura
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5); /* Capa oscura con opacidad */
+      z-index: 1;
+    }
+  
+    .info-content, .btn-container {
+      position: relative;
+      z-index: 2; /* Coloca el contenido por encima de la capa oscura */
+    }
+  
+    .info-content {
+      color: #fff;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+  
+    .btn-container {
+      display: flex;
+      gap: 20px;
+  
+      button {
+        background-color: #000000;
+        color: #ffffff;
+        font-size: 12px;
+        padding: 10px 45px;
+        border: 1px solid transparent;
+        border-radius: 8px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        margin-top: 10px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+  
+        &.hidden {
+          background-color: transparent;
+          border-color: #fff;
+        }
+  
+        &:hover {
+          background-color: #333333;
+        }
+      }
+    }
+  }
+
+
+
+
+
+.h1 {
+  font-weight: 600; 
+}
+
+//Imagen logo
+.log {
+    width: @widthlog;
+    height: @heightlog;
+    border-radius: 50%;  
+    overflow: hidden; 
+}
+
+
+//body
+body{
+  background-color: @bodycolor;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//Nav
+.navbar {
+  background-color: @navbar-bg;   /* Aplica el color de fondo negro */
+  .nav-link {
+      color: @navbar-text;        /* Aplica el color de texto blanco */
+      &:hover {
+          color: lighten(@navbar-text, 20%); /* Cambia el color del texto al pasar el mouse */
+      }
+  }
+
+  .navbar-toggler {
+      border-color: @navbar-toggle-icon;
+      .navbar-toggler-icon {
+          background-image: url("data:image/svg+xml;charset=UTF8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='#{@{navbar-toggle-icon}}' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+      }
+  }
+}
+
+
+
+
+
+
+
+// Footer
+.footer-distributed {
+    background-color: @background-color-footer;
+    box-sizing: border-box;
+    width: 100%;
+    text-align: left;
+    font: @font-bold;
+    padding: @padding-footer;
+    margin-top: @margin-footer-top;
+
+    .footer-left,
+    .footer-center,
+    .footer-right {
+        display: inline-block;
+        vertical-align: top;
+    }
+
+    .footer-left {
+        width: 30%;
+    }
+
+    h3 {
+        color: @text-color;
+        font: @h3-font;
+        margin: 0;
+
+        span {
+            color: @text-color;
+        }
+    }
+
+    .footer-links {
+        color: @text-color;
+        margin: 20px 0 12px;
+
+        a {
+            display: inline-block;
+            line-height: 1.8;
+            text-decoration: none;
+            color: inherit;
+
+            &:hover {
+                color: @link-hover-color;
+            }
+        }
+    }
+
+    .footer-company-name {
+        color: @secondary-text-color;
+        font-size: @font-size-small;
+        font-weight: normal;
+        margin: 0;
+    }
+
+    .footer-center {
+        width: 35%;
+
+        i {
+            background-color: @icon-bg-color;
+            color: @text-color;
+            font-size: @icon-size;
+            width: 38px;
+            height: 38px;
+            border-radius: @icon-radius;
+            text-align: center;
+            line-height: 42px;
+            margin: 10px 15px;
+            vertical-align: middle;
+
+            &.fa-envelope {
+                font-size: 17px;
+                line-height: 38px;
+            }
+        }
+
+        p {
+            display: inline-block;
+            color: @text-color;
+            vertical-align: middle;
+            margin: 0;
+
+            span {
+                display: block;
+                font-weight: normal;
+                font-size: @font-size-small;
+                line-height: 2;
+            }
+
+            a {
+                color: @text-color;
+                text-decoration: none;
+            }
+        }
+    }
+
+    .footer-right {
+        width: 30%;
+
+        .footer-company-about {
+            line-height: 20px;
+            color: @text-color;
+            font-size: 13px;
+            font-weight: normal;
+            margin: 0;
+
+            span {
+                display: block;
+                color: @text-color;
+                font-size: 18px;
+                font-weight: bold;
+                margin-bottom: 20px;
+            }
+        }
+
+        .footer-icons {
+            margin-top: 25px;
+
+            a {
+                display: inline-block;
+                width: 35px;
+                height: 35px;
+                cursor: pointer;
+                background-color: @icon-bg-color;
+                border-radius: 2px;
+                font-size: 20px;
+                color: @text-color;
+                text-align: center;
+                line-height: 35px;
+                margin-right: 3px;
+                margin-bottom: 5px;
+
+                &:hover {
+                    background-color: @icon-hover-bg-color;
+                }
+            }
+        }
+    }
+}

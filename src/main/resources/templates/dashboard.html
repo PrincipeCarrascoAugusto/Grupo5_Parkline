@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+    <title>Dashboard Parkline</title>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar Menu -->
+        <nav class="sidebar">
+            <h2>Parkline Dashboard</h2>
+            <img src="img/logo.png" alt="Logo Parkline" style="width: 100%; margin-top: 10px;"/> <!-- Logo del parking -->
+            <ul>
+                <li><a href="#" onclick="mostrarSeccion('autos')">Autos Estacionados</a></li>
+                <li><a href="#" onclick="mostrarSeccion('espacios')">Espacios Disponibles</a></li>
+                <li><a href="#" onclick="mostrarSeccion('historial')">Historial</a></li>
+                <li><a href="#" onclick="mostrarSeccion('usuarios')">Usuarios</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <header>
+                <h1>Bienvenido a Parkline</h1>
+            </header>
+
+            <!-- Sección Autos Estacionados -->
+            <section id="autos" class="seccion" style="display: block;">
+                <div class="search-add-bar">
+                    <input type="text" id="buscarAutos" onkeyup="buscarAutos()" placeholder="Buscar autos...">
+                    <button onclick="agregarAuto()">Agregar Auto</button>
+                </div>
+
+                <h2>Autos Estacionados</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Placa</th>
+                            <th>Hora de Entrada</th>
+                            <th>Espacio</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="autos-body">
+                        <!-- Datos llenados por JavaScript -->
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Sección Espacios Disponibles -->
+            <section id="espacios" class="seccion" style="display:none;">
+                <div class="search-add-bar">
+                    <input type="text" id="buscarEspacios" onkeyup="buscarEnTabla('buscarEspacios', 'espacios-body')" placeholder="Buscar espacios...">
+                    <button onclick="agregarEspacio()">Agregar Espacio</button>
+                </div>
+                <h2>Espacios Disponibles</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Estado</th>
+                            <th>Tipo</th>
+                        </tr>
+                    </thead>
+                    <tbody id="espacios-body">
+                        <!-- Datos llenados por JavaScript -->
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Sección Historial -->
+            <section id="historial" class="seccion" style="display:none;">
+                <h2>Historial de Autos</h2>
+                <!-- Contenido de historial -->
+            </section>
+
+            <!-- Sección Usuarios -->
+            <section id="usuarios" class="seccion" style="display:none;">
+                <div class="search-add-bar">
+                    <input type="text" id="buscarUsuarios" onkeyup="buscarEnTabla('buscarUsuarios', 'usuarios-body')" placeholder="Buscar usuarios...">
+                    <button onclick="agregarUsuario()">Agregar Usuario</button>
+                </div>
+                <h2>Gestión de Usuarios</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nro.</th>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Apellidos</th>
+                            <th>DNI</th>
+                            <th>Rol</th>
+                            <th>Contraseña</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usuarios-body">
+                        <tr th:each="emp, estado : ${lista}" >
+                            <td th:text="${estado.count}"></td>
+                            <td th:text="${emp.id}"></td>
+                            <td th:text="${emp.nombre_empl}"></td>
+                            <td th:text="${emp.apellido_empl}"></td>
+                            <td th:text="${emp.dni}"></td>
+                            <td th:text="${emp.rol}"></td>
+                            <td th:text="${emp.contrasena}"></td>
+                            <td><a th:href="@{/editar}" class="btn btn-warning"> Editar</a>
+                                <a th:href="@{/eliminar}" class="btn btn-danger"> Eliminar</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </div>
+    </div>
+
+    <script src="/scripts.js"></script> 
+</body>
+</html>
