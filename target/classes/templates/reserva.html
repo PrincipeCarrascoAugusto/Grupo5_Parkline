@@ -1,0 +1,12 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Confirmación de Reserva</title>
+</head>
+<body>
+    <h1>Reserva Confirmada</h1>
+    <p>Espacio: <span th:text="${reserva.nom_espacio}"></span></p>
+    <p>Tiempo de reserva: <span th:text="${reserva.tiempo}"></span></p>
+    <p>Placa del vehículo: <span th:text="${reserva.placa}"></span></p>
+</body>
+</html>

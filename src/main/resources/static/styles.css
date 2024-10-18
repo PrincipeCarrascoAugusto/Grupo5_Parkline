@@ -107,4 +107,47 @@ table th {
     margin-bottom: 10px; /* Espacio entre el título y la tabla */
     font-size: 24px; /* Aumenta el tamaño del texto si es necesario */
 }
+.nosotros-section {
+            text-align: center;
+            padding: 50px;
+            color: black; /* Color de las letras cambiado a negro */
+            background-image: url('img/estacio.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .card {
+            background-color: rgba(255, 255, 255, 0.8);
+            border: none;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px;
+            transition: transform 0.3s;
+        }
+
+        .card-icon {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: #00bfff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 20px auto;
+        }
+
+        .card-icon i {
+            font-size: 40px;
+            color: white;
+        }
+
+        .mission-vision {
+            margin: 40px 0;
+        }
+        
+        .card:hover {
+            transform: scale(1.05);
+        }
+
 

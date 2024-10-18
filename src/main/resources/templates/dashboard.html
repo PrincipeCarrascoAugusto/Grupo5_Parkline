@@ -12,12 +12,12 @@
         <!-- Sidebar Menu -->
         <nav class="sidebar">
             <h2>Parkline Dashboard</h2>
-            <img src="img/logo.png" alt="Logo Parkline" style="width: 100%; margin-top: 10px;"/> <!-- Logo del parking -->
+            <img th:src="@{/img/logoact.png}" alt="Logo" style="width: 100%; margin-top: 10px;" />
             <ul>
                 <li><a href="#" onclick="mostrarSeccion('autos')">Autos Estacionados</a></li>
                 <li><a href="#" onclick="mostrarSeccion('espacios')">Espacios Disponibles</a></li>
                 <li><a href="#" onclick="mostrarSeccion('historial')">Historial</a></li>
-                <li><a href="#" onclick="mostrarSeccion('usuarios')">Usuarios</a></li>
+                <li><a href="#" onclick="mostrarSeccion('empleados')">Empleados</a></li>
             </ul>
         </nav>
 
@@ -79,16 +79,15 @@
             </section>
 
             <!-- Sección Usuarios -->
-            <section id="usuarios" class="seccion" style="display:none;">
+            <section id="empleados" class="seccion" style="display:none;">
                 <div class="search-add-bar">
-                    <input type="text" id="buscarUsuarios" onkeyup="buscarEnTabla('buscarUsuarios', 'usuarios-body')" placeholder="Buscar usuarios...">
-                    <button onclick="agregarUsuario()">Agregar Usuario</button>
+                    <input type="text" id="buscarEmpleados" onkeyup="buscarEnTabla('buscarEmpleados', 'empleado-body')" placeholder="Buscar Empleados...">
+                    <button onclick="agregarEmpleado()">Agregar Empleado</button>
                 </div>
-                <h2>Gestión de Usuarios</h2>
+                <h2>Gestión de Empleados</h2>
                 <table>
                     <thead>
-                        <tr>
-                            <th>Nro.</th>
+                        <tr>                           
                             <th>ID</th>
                             <th>Nombre</th>
                             <th>Apellidos</th>
@@ -98,9 +97,8 @@
                             <th>Acciones</th>
                         </tr>
                     </thead>
-                    <tbody id="usuarios-body">
-                        <tr th:each="emp, estado : ${lista}" >
-                            <td th:text="${estado.count}"></td>
+                    <tbody id="empleados-body">
+                        <tr th:each="emp, estado : ${lista}" >                         
                             <td th:text="${emp.id}"></td>
                             <td th:text="${emp.nombre_empl}"></td>
                             <td th:text="${emp.apellido_empl}"></td>
