@@ -9,9 +9,13 @@ C:\Users\Miguel\Downloads\testing\testing\src\main\java\testing\Controlador\Logi
 C:\Users\Miguel\Downloads\testing\testing\src\main\java\testing\Controlador\ReservaController.java
 C:\Users\Miguel\Downloads\testing\testing\src\main\java\testing\DAO\empleadoDAO.java
 C:\Users\Miguel\Downloads\testing\testing\src\main\java\testing\DAO\empleadoDAOimpl.java
+C:\Users\Miguel\Downloads\testing\testing\src\main\java\testing\DAO\ReservaDAO.java
+C:\Users\Miguel\Downloads\testing\testing\src\main\java\testing\DAO\ReservaDAOimpl.java
 C:\Users\Miguel\Downloads\testing\testing\src\main\java\testing\modelo\empleado.java
-C:\Users\Miguel\Downloads\testing\testing\src\main\java\testing\modelo\reserva.java
+C:\Users\Miguel\Downloads\testing\testing\src\main\java\testing\modelo\Reserva.java
 C:\Users\Miguel\Downloads\testing\testing\src\main\java\testing\modelo\Usuarios.java
 C:\Users\Miguel\Downloads\testing\testing\src\main\java\testing\Servicio\empleadoService.java
 C:\Users\Miguel\Downloads\testing\testing\src\main\java\testing\Servicio\empleadoServicioimpl.java
+C:\Users\Miguel\Downloads\testing\testing\src\main\java\testing\Servicio\ReservaService.java
+C:\Users\Miguel\Downloads\testing\testing\src\main\java\testing\Servicio\ReservaServicioimpl.java
 C:\Users\Miguel\Downloads\testing\testing\src\main\java\testing\TesteandoSpringEHibernateApplication.java

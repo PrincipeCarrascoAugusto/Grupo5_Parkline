@@ -9,16 +9,25 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import testing.Servicio.ReservaService;
 import testing.Servicio.empleadoService;
+import testing.modelo.Reserva;
 import testing.modelo.empleado;
 
 
 @Controller
 public class ControlEmpleado {
+
+    @Autowired
+    private ReservaService reservaservice;
     
     @Autowired
     private empleadoService empleadoservice;
+    
     List<String> listarol = Arrays.asList("Administrador","Empleado");
+    List<String> listaespacio = Arrays.asList("A1","A2","A3","A4","B1","B2","B3","B4");
+    
+    //CRUD para los empleados
     
     @GetMapping("/nuevoemp")
     public String NuevoEmp(Model modelo){
@@ -62,9 +71,56 @@ public class ControlEmpleado {
         return "redirect:/dashboard";
     }
     
+    //CRUD para la reserva
+    
+    @GetMapping("/nuevares")
+    public String NuevoRes(Model modelo){
+        Reserva res = new Reserva();
+        modelo.addAttribute("reserva",res);
+        modelo.addAttribute("espacio", listaespacio);
+        return "nuevareserva";
+    }
+    
+    @GetMapping("/guardarres")
+    public String GuadarRes(@ModelAttribute("reserva") Reserva res){
+        reservaservice.save(res);
+        return "redirect:/dashboard";
+    }
+    
+    @GetMapping("/reserva/editar/{ID}")
+    public String EditarRes(@PathVariable Integer ID,Model modelo){
+        modelo.addAttribute("reserva",reservaservice.get(ID));
+        modelo.addAttribute("espacio", listaespacio);
+        return "editarreserva";
+    }
+    
+    @GetMapping("/reserva/actualizar/{ID}")
+    public String ActualizarRes(@PathVariable Integer ID,@ModelAttribute("reserva") Reserva reserva){
+        Reserva actual = reservaservice.get(ID);
+        actual.setID(ID);
+        actual.setUsuario(reserva.getUsuario());
+        actual.setPlaca(reserva.getPlaca());
+        actual.setHora_entrada(reserva.getHora_entrada());
+        actual.setHora_salida(reserva.getHora_salida());
+        actual.setEspacio(reserva.getEspacio());
+        actual.setPago(reserva.getPago());
+        actual.setFecha(reserva.getFecha());
+        reservaservice.update(actual);
+        return "redirect:/dashboard";
+    }
+    
+    @GetMapping("/reserva/eliminar/{ID}")
+    public String EliminarRes(@PathVariable Integer ID){
+        reservaservice.delete(ID);
+        return "redirect:/dashboard";
+    }
+    
+    
+    
     @GetMapping("/dashboard")
     public String get(Model modelo){
         modelo.addAttribute("lista",empleadoservice.get());
+        modelo.addAttribute("listareserva", reservaservice.get());
         return "dashboard";
     }
 }

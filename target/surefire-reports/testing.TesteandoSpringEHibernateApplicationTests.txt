@@ -1,4 +1,17 @@
 -------------------------------------------------------------------------------
 Test set: testing.TesteandoSpringEHibernateApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.503 s - in testing.TesteandoSpringEHibernateApplicationTests
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 6.916 s <<< FAILURE! - in testing.TesteandoSpringEHibernateApplicationTests
+testing.TesteandoSpringEHibernateApplicationTests.contextLoads  Time elapsed: 0.032 s  <<< ERROR!
+java.lang.IllegalStateException: Failed to load ApplicationContext for [WebMergedContextConfiguration@16732340 testClass = testing.TesteandoSpringEHibernateApplicationTests, locations = [], classes = [testing.TesteandoSpringEHibernateApplication], contextInitializerClasses = [], activeProfiles = [], propertySourceDescriptors = [], propertySourceProperties = ["org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true"], contextCustomizers = [org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@790da477, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@5e7cd6cc, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@aba625, org.springframework.boot.test.web.reactor.netty.DisableReactorResourceFactoryGlobalResourcesContextCustomizerFactory$DisableReactorResourceFactoryGlobalResourcesContextCustomizerCustomizer@2657d4dd, org.springframework.boot.test.autoconfigure.actuate.observability.ObservabilityContextCustomizerFactory$DisableObservabilityContextCustomizer@1f, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizer@1b66c0fb, org.springframework.boot.test.context.SpringBootTestAnnotation@5733a0b1], resourceBasePath = "src/main/webapp", contextLoader = org.springframework.boot.test.context.SpringBootContextLoader, parent = null]
+Caused by: org.springframework.beans.factory.BeanCreationException: 
+Error creating bean with name 'requestMappingHandlerMapping' defined in class path resource [org/springframework/boot/autoconfigure/web/servlet/WebMvcAutoConfiguration$EnableWebMvcConfiguration.class]: Ambiguous mapping. Cannot map 'controlReserva' method 
+testing.Controlador.ControlReserva#get(Model)
+to {GET [/dashboard]}: There is already 'controlEmpleado' bean method
+testing.Controlador.ControlEmpleado#get(Model) mapped.
+Caused by: java.lang.IllegalStateException: 
+Ambiguous mapping. Cannot map 'controlReserva' method 
+testing.Controlador.ControlReserva#get(Model)
+to {GET [/dashboard]}: There is already 'controlEmpleado' bean method
+testing.Controlador.ControlEmpleado#get(Model) mapped.
+

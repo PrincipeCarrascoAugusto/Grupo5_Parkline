@@ -15,7 +15,7 @@
             <h2>Parkline Dashboard</h2>
             <img th:src="@{/img/logoact.png}" alt="Logo" style="width: 100%; margin-top: 10px;" />
             <ul>
-                <li><a href="#" onclick="mostrarSeccion('autos')">Autos Estacionados</a></li>
+                <li><a href="#" onclick="mostrarSeccion('reservas')">Reservas</a></li>
                 <li><a href="#" onclick="mostrarSeccion('espacios')">Espacios Disponibles</a></li>
                 <li><a href="#" onclick="mostrarSeccion('historial')">Historial</a></li>
                 <li><a href="#" onclick="mostrarSeccion('empleados')">Empleados</a></li>
@@ -28,46 +28,67 @@
                 <h1>Bienvenido a Parkline</h1>
             </header>
 
-            <!-- Sección Autos Estacionados -->
-            <section id="autos" class="seccion" style="display: block;">
+            <!-- Sección Reservas -->
+            <section id="reservas" class="seccion" style="display: block;">
                 <div class="search-add-bar">
-                    <input type="text" id="buscarAutos" onkeyup="buscarAutos()" placeholder="Buscar autos...">
-                    <button onclick="agregarAuto()">Agregar Auto</button>
+                    <input type="text" id="buscarReservas" onkeyup="buscarAutos()" placeholder="Buscar reservas...">
+                    <a th:href="@{/nuevares}" class="btn btn-primary" role="button">Agregar Reserva</a>
                 </div>
 
-                <h2>Autos Estacionados</h2>
+                <h2>Reservas</h2>
                 <table>
                     <thead>
                         <tr>
                             <th>ID</th>
+                            <th>Usuario</th>
                             <th>Placa</th>
                             <th>Hora de Entrada</th>
+                            <th>Hora de Salida</th>
                             <th>Espacio</th>
+                            <th>Pago</th>
+                            <th>Fecha</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
-                    <tbody id="autos-body">
-                        <!-- Datos llenados por JavaScript -->
+                    <tbody id="reservas-body">
+                        <tr th:each="res, estado : ${listareserva}">
+                            <td th:text="${res.ID}"></td>
+                            <td th:text="${res.usuario}"></td>
+                            <td th:text="${res.placa}"></td>
+                            <td th:text="${res.hora_entrada}"></td>
+                            <td th:text="${res.hora_salida}"></td>
+                            <td th:text="${res.espacio}"></td>
+                            <td th:text="${res.pago}"></td>
+                            <td th:text="${res.fecha}"></td>
+                            <td><a th:href="@{/reserva/editar/{ID}(ID=${res.ID})}" class="btn btn-warning">Editar</a>
+                                <a th:href="@{/reserva/eliminar/{ID}(ID=${res.ID})}" class="btn btn-danger">Eliminar</a>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </section>
 
-            <!-- Sección Espacios Disponibles -->
-            <section id="espacios" class="seccion" style="display:none;">
+            <!-- Sección Usuarios -->
+            <section id="Usuarios" class="seccion" style="display:none;">
                 <div class="search-add-bar">
-                    <input type="text" id="buscarEspacios" onkeyup="buscarEnTabla('buscarEspacios', 'espacios-body')" placeholder="Buscar espacios...">
-                    <button onclick="agregarEspacio()">Agregar Espacio</button>
+                    <input type="text" id="buscarUsuarios" onkeyup="buscarEnTabla('buscarEspacios', 'espacios-body')" placeholder="Buscar espacios...">
+                    <button onclick="agregarUsuarios()">Agregar Usuarios</button>
                 </div>
                 <h2>Espacios Disponibles</h2>
                 <table>
                     <thead>
-                        <tr>
+                        <tr>                           
                             <th>ID</th>
-                            <th>Estado</th>
-                            <th>Tipo</th>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Dni</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                            <th>Contraseña</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
-                    <tbody id="espacios-body">
+                    <tbody id="usuarios-body">
                         <!-- Datos llenados por JavaScript -->
                     </tbody>
                 </table>
@@ -75,8 +96,27 @@
 
             <!-- Sección Historial -->
             <section id="historial" class="seccion" style="display:none;">
-                <h2>Historial de Autos</h2>
-                <!-- Contenido de historial -->
+                <div class="search-add-bar">
+                    <input type="text" id="buscarHistorial" onkeyup="buscarEnTabla('buscarEspacios', 'espacios-body')" placeholder="Buscar espacios...">
+                    <button onclick="agregarHistorial()">Agregar Historial</button>
+                </div>
+                <h2>Historial</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Usuario</th>
+                            <th>Empleado</th>
+                            <th>Placa</th>
+                            <th>Fecha</th>
+                            <th>Pago</th>
+                            <th>Ubicación</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historial-body">
+                        <!-- Datos llenados por JavaScript -->
+                    </tbody>
+                </table>
             </section>
 
             <!-- Sección Empleados -->
@@ -92,7 +132,7 @@
                             <th>ID</th>
                             <th>Nombre</th>
                             <th>Apellidos</th>
-                            <th>DNI</th>
+                            <th>Dni</th>
                             <th>Teléfono</th>
                             <th>Email</th>
                             <th>Rol</th>

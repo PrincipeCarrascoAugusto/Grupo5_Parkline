@@ -7,7 +7,7 @@ import testing.modelo.*;
 // Definición de la interfaz empleadoDAO
 public interface empleadoDAO {
     
-    //Método que obtiene una lista de empleado 
+    //Método que obtiene una lista de empleados 
     public List<empleado> get();
     
     //Método para obtener un empleado con el "id"
