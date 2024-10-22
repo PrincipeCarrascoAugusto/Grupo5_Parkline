@@ -1,5 +1,11 @@
+testing\Controlador\ControlEmpleado.class
+testing\Controlador\ControlNosotros.class
 testing\TesteandoSpringEHibernateApplication.class
+testing\modelo\Usuarios.class
+testing\Controlador\ControlRecompensas.class
+.netbeans_automatic_build
 testing\Controlador\LoginController.class
+testing\Controlador\ControlReservas.class
 testing\Controlador\HomeController.class
 testing\DAO\empleadoDAO.class
 testing\Servicio\empleadoService.class
@@ -8,4 +14,5 @@ testing\Controlador\ControlReserva.class
 testing\Controlador\ReservaController.class
 testing\DAO\empleadoDAOimpl.class
 testing\modelo\reserva.class
+testing\Controlador\ControlDashboard.class
 testing\Servicio\empleadoServicioimpl.class

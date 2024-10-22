@@ -1,5 +1,6 @@
 package testing.Servicio;
 
+//Librerias
 import testing.modelo.empleado;
 import testing.DAO.empleadoDAO;
 import java.util.List;
@@ -17,11 +18,16 @@ public class empleadoServicioimpl implements  empleadoService{
     @Transactional
     @Override
     public empleado get(int id) { return emplDAO.get(id);}
-
+    @Transactional
     @Override
     public void save(empleado empl) { emplDAO.save(empl);}
-
+    @Transactional
+    @Override
+    public void update(empleado empl) {emplDAO.update(empl);}
+    @Transactional
     @Override
     public void delete(int id) { emplDAO.delete(id);}
+
+    
     
 }

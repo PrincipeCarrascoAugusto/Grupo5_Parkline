@@ -1,16 +1,17 @@
-D:\UTP cursos 8 ciclo\integrador 1\las pruebas\2\testing\src\main\java\testing\Controlador\ControlDashboard.java
-D:\UTP cursos 8 ciclo\integrador 1\las pruebas\2\testing\src\main\java\testing\Controlador\ControlNosotros.java
-D:\UTP cursos 8 ciclo\integrador 1\las pruebas\2\testing\src\main\java\testing\Controlador\ControlRecompensas.java
-D:\UTP cursos 8 ciclo\integrador 1\las pruebas\2\testing\src\main\java\testing\Controlador\ControlReserva.java
-D:\UTP cursos 8 ciclo\integrador 1\las pruebas\2\testing\src\main\java\testing\Controlador\ControlReservas.java
-D:\UTP cursos 8 ciclo\integrador 1\las pruebas\2\testing\src\main\java\testing\Controlador\HomeController.java
-D:\UTP cursos 8 ciclo\integrador 1\las pruebas\2\testing\src\main\java\testing\Controlador\LoginController.java
-D:\UTP cursos 8 ciclo\integrador 1\las pruebas\2\testing\src\main\java\testing\Controlador\ReservaController.java
-D:\UTP cursos 8 ciclo\integrador 1\las pruebas\2\testing\src\main\java\testing\DAO\empleadoDAO.java
-D:\UTP cursos 8 ciclo\integrador 1\las pruebas\2\testing\src\main\java\testing\DAO\empleadoDAOimpl.java
-D:\UTP cursos 8 ciclo\integrador 1\las pruebas\2\testing\src\main\java\testing\modelo\empleado.java
-D:\UTP cursos 8 ciclo\integrador 1\las pruebas\2\testing\src\main\java\testing\modelo\reserva.java
-D:\UTP cursos 8 ciclo\integrador 1\las pruebas\2\testing\src\main\java\testing\modelo\Usuarios.java
-D:\UTP cursos 8 ciclo\integrador 1\las pruebas\2\testing\src\main\java\testing\Servicio\empleadoService.java
-D:\UTP cursos 8 ciclo\integrador 1\las pruebas\2\testing\src\main\java\testing\Servicio\empleadoServicioimpl.java
-D:\UTP cursos 8 ciclo\integrador 1\las pruebas\2\testing\src\main\java\testing\TesteandoSpringEHibernateApplication.java
+C:\Users\Miguel\Downloads\testing\testing\src\main\java\testing\Controlador\ControlDashboard.java
+C:\Users\Miguel\Downloads\testing\testing\src\main\java\testing\Controlador\ControlEmpleado.java
+C:\Users\Miguel\Downloads\testing\testing\src\main\java\testing\Controlador\ControlNosotros.java
+C:\Users\Miguel\Downloads\testing\testing\src\main\java\testing\Controlador\ControlRecompensas.java
+C:\Users\Miguel\Downloads\testing\testing\src\main\java\testing\Controlador\ControlReserva.java
+C:\Users\Miguel\Downloads\testing\testing\src\main\java\testing\Controlador\ControlReservas.java
+C:\Users\Miguel\Downloads\testing\testing\src\main\java\testing\Controlador\HomeController.java
+C:\Users\Miguel\Downloads\testing\testing\src\main\java\testing\Controlador\LoginController.java
+C:\Users\Miguel\Downloads\testing\testing\src\main\java\testing\Controlador\ReservaController.java
+C:\Users\Miguel\Downloads\testing\testing\src\main\java\testing\DAO\empleadoDAO.java
+C:\Users\Miguel\Downloads\testing\testing\src\main\java\testing\DAO\empleadoDAOimpl.java
+C:\Users\Miguel\Downloads\testing\testing\src\main\java\testing\modelo\empleado.java
+C:\Users\Miguel\Downloads\testing\testing\src\main\java\testing\modelo\reserva.java
+C:\Users\Miguel\Downloads\testing\testing\src\main\java\testing\modelo\Usuarios.java
+C:\Users\Miguel\Downloads\testing\testing\src\main\java\testing\Servicio\empleadoService.java
+C:\Users\Miguel\Downloads\testing\testing\src\main\java\testing\Servicio\empleadoServicioimpl.java
+C:\Users\Miguel\Downloads\testing\testing\src\main\java\testing\TesteandoSpringEHibernateApplication.java
