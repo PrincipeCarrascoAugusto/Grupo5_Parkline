@@ -29,56 +29,16 @@
             <a href="Nosotros">
                 <button>Conocer más</button>
             </a>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reservaModal">
+            
+            <a th:href="@{/reservas}">
+            <button type="button" class="btn btn-primary" >
                 Reservar ahora
             </button>
+            </a>
         </div>
     </main>
 
-    <!-- Modal -->
     
-    <div class="modal fade" id="reservaModal" tabindex="-1" aria-labelledby="reservaModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="reservaModalLabel">Reservar un espacio</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form th:action="@{/reserva}" th:object="${reserva}" method="post">
-                        <div class="form-group">
-                            <label for="espacio">Selecciona el espacio</label>
-                            <select class="form-control" th:field="*{nom_espacio}" id="espacio">
-                                <option value="A1">A1</option>
-                                <option value="A2">A2</option>
-                                <option value="A3">A3</option>
-                                <option value="B1">B1</option>
-                                <option value="B2">B2</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="tiempo">Tiempo de reserva</label>
-                            <select class="form-control" th:field="*{tiempo}" id="tiempo">
-                                <option value="1 hora">1 hora</option> 
-                                <option value="2 horas">2 horas</option>
-                                <option value="3 horas">3 horas</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="vehiculo">Placa del vehículo</label>
-                            <input type="text" class="form-control" th:field="*{placa}" id="vehiculo" placeholder="Placa del vehículo">
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <button type="submit" class="btn btn-primary">Confirmar reserva</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 
 
 
