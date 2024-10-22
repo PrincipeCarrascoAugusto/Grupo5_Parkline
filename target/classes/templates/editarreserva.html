@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Editar reserva ParkLine</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    </head>
+    <body>
+        <div class="container">
+        <h2>Actualización Datos Reserva</h2>
+        <form role="form" th:action="@{/reserva/actualizar/{ID}(ID=${reserva.ID})}"
+                                                    th:object="${reserva}">
+            <table> 
+                <tr><td><label class="form-label">ID Reserva</label></td>
+                    <td> <input type="text" th:field="*{ID}" class="form-control" disabled ></td>
+                </tr>                
+                <tr><td><label class="form-label">Usuario</label></td>
+                    <td> <input type="text" th:field="*{usuario}" class="form-control" ></td>
+                </tr>
+                <tr><td><label class="form-label">Placa</label></td>
+                    <td> <input type="text" th:field="*{placa}" class="form-control" ></td>
+                </tr>
+                <tr><td><label class="form-label">Hora de entrada</label></td>
+                    <td> <input type="time" th:field="*{hora_entrada}" class="form-control" ></td>
+                </tr>
+                <tr><td><label class="form-label">Hora de salida</label></td>
+                    <td> <input type="time" th:field="*{hora_salida}" class="form-control" ></td>
+                </tr>
+                <tr><td> <label class="form-label">Espacio</label></td>
+                    <td> <select th:field="*{espacio}"   class="form-select">
+                            <option th:each="e : ${espacio}"
+                                    th:value="${e}"
+                                    th:text="${e}"></option>                      
+                         </select></td>
+                </tr>  
+                <tr><td><label class="form-label">Pago</label></td>
+                    <td> <input type="text" th:field="*{pago}" class="form-control" ></td>
+                </tr>
+                <tr><td><label class="form-label">Fecha</label></td>
+                    <td> <input type="date" th:field="*{fecha}" class="form-control" ></td>
+                </tr>                
+                <tr>                   
+                    <td align="center">
+                         <br><button type="submit" class="btn btn-primary">Actualizar Datos</button></td>
+                </tr>          
+          </table>
+        </form>
+      </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    </body>
+</html>
+

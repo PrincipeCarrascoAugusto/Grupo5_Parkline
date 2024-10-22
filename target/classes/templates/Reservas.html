@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8">
@@ -18,10 +19,53 @@
 </head>
 
 <body>
+    <!-- Header -->
     <nav id="nav"> 
     </nav>
 
-   
+    
+    <div class="container">
+        <h2>Registro de Reserva</h2>
+        <form role="form" th:action="@{/guarres}" th:object="${reserva}"  >
+            <table>                  
+                <tr><td><label class="form-label">Usuario</label></td>
+                    <td> <input type="text" th:field="*{usuario}" class="form-control" ></td>
+                </tr>
+                <tr><td><label class="form-label">Placa</label></td>
+                    <td> <input type="text" th:field="*{placa}" class="form-control" ></td>
+                </tr>
+                <tr><td><label class="form-label">Hora de entrada</label></td>
+                    <td> <input type="time" th:field="*{hora_entrada}" class="form-control" ></td>
+                </tr>
+                <tr><td><label class="form-label">Hora de salida</label></td>
+                    <td> <input type="time" th:field="*{hora_salida}" class="form-control" ></td>
+                </tr>
+                <tr><td> <label class="form-label">Espacio</label></td>
+                    <td> <select th:field="*{espacio}"   class="form-select">
+                            <option th:each="e : ${espacio}"
+                                    th:value="${e}"
+                                    th:text="${e}"></option>                      
+                         </select></td>
+                </tr>
+                <tr><td><label class="form-label">Pago</label></td>
+                    <td> <input type="text" th:field="*{pago}" class="form-control" ></td>
+                </tr>
+                <tr><td><label class="form-label">Fecha</label></td>
+                    <td> <input type="date" th:field="*{fecha}" class="form-control" ></td>
+                </tr>
+      
+                <tr>                   
+                    <td align="center">
+                         <br><button type="submit" class="btn btn-primary">Registrar</button></td>
+                </tr>          
+          </table>
+        </form>
+      </div> 
+    
+    
+    
+    
+    <!-- Footer -->
     <footer id="footer">
     </footer>
 
