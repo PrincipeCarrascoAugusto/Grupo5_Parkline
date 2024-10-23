@@ -40,7 +40,7 @@ public class ControlEmpleado {
     @GetMapping("/guardaremp")
     public String GuardarEmp(@ModelAttribute("empleado") empleado empl){
         empleadoservice.save(empl);
-        return "redirect:/dashboard";
+        return "redirect:/api/dashboard";
     }
     
     @GetMapping("/empleado/editar/{id}")
@@ -62,13 +62,13 @@ public class ControlEmpleado {
         actual.setRol(empleado.getRol());
         actual.setContrasena(empleado.getContrasena());
         empleadoservice.update(actual);
-        return "redirect:/dashboard";
+        return "redirect:/api/dashboard";
     }
     
     @GetMapping("/empleado/eliminar/{id}")
     public String EliminarEmp(@PathVariable Integer id){
         empleadoservice.delete(id);
-        return "redirect:/dashboard";
+        return "redirect:/api/dashboard";
     }
     
     //CRUD para la reserva
@@ -84,7 +84,7 @@ public class ControlEmpleado {
     @GetMapping("/guardarres")
     public String GuadarRes(@ModelAttribute("reserva") Reserva res){
         reservaservice.save(res);
-        return "redirect:/dashboard";
+        return "redirect:/api/dashboard";
     }
     
     @GetMapping("/reserva/editar/{ID}")
@@ -106,13 +106,13 @@ public class ControlEmpleado {
         actual.setPago(reserva.getPago());
         actual.setFecha(reserva.getFecha());
         reservaservice.update(actual);
-        return "redirect:/dashboard";
+        return "redirect:/api/dashboard";
     }
     
     @GetMapping("/reserva/eliminar/{ID}")
     public String EliminarRes(@PathVariable Integer ID){
         reservaservice.delete(ID);
-        return "redirect:/dashboard";
+        return "redirect:/api/dashboard";
     }
     
     
@@ -121,6 +121,6 @@ public class ControlEmpleado {
     public String get(Model modelo){
         modelo.addAttribute("lista",empleadoservice.get());
         modelo.addAttribute("listareserva", reservaservice.get());
-        return "dashboard";
+        return "/api/dashboard";
     }
 }

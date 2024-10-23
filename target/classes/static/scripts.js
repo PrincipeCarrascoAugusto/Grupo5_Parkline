@@ -9,81 +9,51 @@ function mostrarSeccion(seccion) {
     document.getElementById(seccion).style.display = 'block';
 }
 
-// Función para mostrar los autos en la tabla
-function mostrarAutos(autos = autosData) {
-    const tbody = document.getElementById('autos-body');
-    tbody.innerHTML = ''; // Limpiar el contenido actual
+//Funcion para la busqueda por placa en el dashboard
+function buscarPorPlaca() {
+    // Obtener el valor del campo de búsqueda
+    let input = document.getElementById("buscarAuto").value.toUpperCase();
+    let table = document.getElementById("reservas-body");
+    let rows = table.getElementsByTagName("tr");
 
-    autos.forEach(auto => {
-        const row = `
-            <tr>
-                <td>${auto.id}</td>
-                <td>${auto.placa}</td>
-                <td>${auto.horaEntrada}</td>
-                <td>${auto.espacio}</td>
-                <td>
-                    <button class="btn" onclick="modificarAuto(${auto.id})">Modificar</button>
-                    <button class="btn delete" onclick="eliminarAuto(${auto.id})">Eliminar</button>
-                </td>
-            </tr>
-        `;
-        tbody.innerHTML += row;
-    });
-}
-
-// Función para agregar un nuevo auto
-function agregarAuto() {
-    const nuevoId = autosData.length + 1;
-    const nuevaPlaca = prompt('Ingrese la placa del auto:');
-    const nuevaHoraEntrada = prompt('Ingrese la hora de entrada:');
-    const nuevoEspacio = prompt('Ingrese el espacio asignado:');
-
-    if (nuevaPlaca && nuevaHoraEntrada && nuevoEspacio) {
-        autosData.push({ id: nuevoId, placa: nuevaPlaca, horaEntrada: nuevaHoraEntrada, espacio: nuevoEspacio });
-        mostrarAutos(); // Refrescar la tabla
-    } else {
-        alert('Todos los campos son obligatorios.');
-    }
-}
-
-// Función para modificar un auto existente
-function modificarAuto(id) {
-    const auto = autosData.find(a => a.id === id);
-    if (auto) {
-        const nuevaPlaca = prompt('Modifique la placa del auto:', auto.placa);
-        const nuevaHoraEntrada = prompt('Modifique la hora de entrada:', auto.horaEntrada);
-        const nuevoEspacio = prompt('Modifique el espacio asignado:', auto.espacio);
-
-        if (nuevaPlaca && nuevaHoraEntrada && nuevoEspacio) {
-            auto.placa = nuevaPlaca;
-            auto.horaEntrada = nuevaHoraEntrada;
-            auto.espacio = nuevoEspacio;
-            mostrarAutos(); // Refrescar la tabla
-        } else {
-            alert('Todos los campos son obligatorios.');
+    // Iterar sobre todas las filas de la tabla
+    for (let i = 0; i < rows.length; i++) {
+        // Obtener la tercera columna (Placa)
+        let placa = rows[i].getElementsByTagName("td")[2];
+        if (placa) {
+            let txtValue = placa.textContent || placa.innerText;
+            if (txtValue.toUpperCase().indexOf(input) > -1) {
+                // Mostrar la fila si la placa coincide con el filtro
+                rows[i].style.display = "";
+            } else {
+                // Ocultar la fila si la placa no coincide
+                rows[i].style.display = "none";
+            }
         }
-    } else {
-        alert('Auto no encontrado.');
     }
 }
 
-// Función para eliminar un auto
-function eliminarAuto(id) {
-    const confirmacion = confirm('¿Está seguro de que desea eliminar este auto?');
-    if (confirmacion) {
-        autosData = autosData.filter(auto => auto.id !== id);
-        mostrarAutos(); // Refrescar la tabla
+function buscarPorNombre() {
+    // Obtener el valor del campo de búsqueda y convertirlo a minúsculas
+    let input = document.getElementById("buscarEmpleado").value.toLowerCase();
+    let table = document.getElementById("empleados-body");
+    let rows = table.getElementsByTagName("tr");
+
+    // Iterar sobre todas las filas de la tabla
+    for (let i = 0; i < rows.length; i++) {
+        // Obtener la segunda columna (Nombre del empleado)
+        let nombre = rows[i].getElementsByTagName("td")[1]; // Suponiendo que el nombre está en la segunda columna (índice 1)
+        if (nombre) {
+            let txtValue = nombre.textContent || nombre.innerText;
+            // Comparar el texto del nombre con el valor de entrada
+            if (txtValue.toLowerCase().indexOf(input) > -1) {
+                // Mostrar la fila si el nombre coincide con el filtro
+                rows[i].style.display = "";
+            } else {
+                // Ocultar la fila si el nombre no coincide
+                rows[i].style.display = "none";
+            }
+        }
     }
 }
 
-// Función para buscar autos
-function buscarAutos() {
-    const searchInput = document.getElementById('buscarAutos').value.toLowerCase();
-    const autosFiltrados = autosData.filter(auto => auto.placa.toLowerCase().includes(searchInput));
-    mostrarAutos(autosFiltrados); // Mostrar autos filtrados
-}
-
-// Inicializar la tabla de autos al cargar la página
-document.addEventListener('DOMContentLoaded', () => {
-    mostrarAutos(); // Mostrar la tabla vacía al cargar
-});

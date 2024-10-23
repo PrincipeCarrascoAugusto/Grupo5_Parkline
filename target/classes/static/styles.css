@@ -60,6 +60,7 @@ header {
 
 .search-add-bar {
     display: flex;
+    align-items: center;
     justify-content: flex-end; /* Mover al lado derecho */
     margin-bottom: 20px;
 }
@@ -70,6 +71,10 @@ header {
     border: 1px solid #bdc3c7;
     border-radius: 5px;
     margin-right: 10px; /* Espacio entre el input y el botón */
+}
+
+.search-add-bar a,.search-add-bar button {
+    margin-right: 10px; /* Añade espacio de 10px entre los botones */
 }
 
 button {
@@ -150,4 +155,35 @@ table th {
             transform: scale(1.05);
         }
 
+/* Ocultar el formulario inicialmente */
+#formularioReserva {
+    display: none;
+    margin-top: 20px;
+}
 
+/* Estilo para el formulario de reserva */
+#formularioReserva table {
+    width: 100%;
+    margin: 0 auto;
+}
+
+#formularioReserva label {
+    font-weight: bold;
+}
+
+#formularioReserva input,
+#formularioReserva select {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    box-sizing: border-box;
+}
+
+#formularioReserva button {
+    width: 100%;
+}
+
+/* Espaciado entre el texto y los elementos del formulario */
+#formularioReserva td {
+    padding: 10px;
+}

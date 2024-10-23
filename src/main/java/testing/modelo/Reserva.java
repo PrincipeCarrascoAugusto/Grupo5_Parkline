@@ -73,6 +73,4 @@ public class Reserva {
         this.fecha = fecha;
     }
 
-    
-  
 }

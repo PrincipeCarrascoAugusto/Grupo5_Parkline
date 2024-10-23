@@ -20,7 +20,7 @@ public class Usuarios {
     @Column
     private String email;
     @Column
-    private String password;
+    private String contraseña;
 
     public Usuarios() {
     }
@@ -74,11 +74,11 @@ public class Usuarios {
     }
 
     public String getPassword() {
-        return password;
+        return contraseña;
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.contraseña = password;
     }
     
     

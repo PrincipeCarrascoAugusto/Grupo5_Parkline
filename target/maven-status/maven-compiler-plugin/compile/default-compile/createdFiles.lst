@@ -7,7 +7,6 @@ testing\DAO\ReservaDAOimpl.class
 testing\Controlador\HomeController.class
 testing\Servicio\ReservaServicioimpl.class
 testing\Servicio\empleadoService.class
-testing\Controlador\ReservaController.class
 testing\Controlador\ControlDashboard.class
 testing\Controlador\ControlEmpleado.class
 testing\modelo\Usuarios.class

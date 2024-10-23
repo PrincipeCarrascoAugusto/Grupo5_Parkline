@@ -1,166 +1,230 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="/styles.css">
-    <title>Dashboard Parkline</title>
-</head>
-<body>
-    <div class="dashboard-container">
-        <!-- Sidebar Menu -->
-        <nav class="sidebar">
-            <h2>Parkline Dashboard</h2>
-            <img th:src="@{/img/logoact.png}" alt="Logo" style="width: 100%; margin-top: 10px;" />
-            <ul>
-                <li><a href="#" onclick="mostrarSeccion('reservas')">Reservas</a></li>
-                <li><a href="#" onclick="mostrarSeccion('espacios')">Espacios Disponibles</a></li>
-                <li><a href="#" onclick="mostrarSeccion('historial')">Historial</a></li>
-                <li><a href="#" onclick="mostrarSeccion('empleados')">Empleados</a></li>
-            </ul>
-        </nav>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-OlEey67YHMS7q/WG9pVZKxyN1/u15t+arDOfzDcbzEKt92c5eX/eF27K9uZ0fL" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-Vk6f6zQMQv15tMYCDf8+fOMCF6/rqqX3R7V5SlsUUIUn5PIm/eHEPtwbfMLzWqSm" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="/styles.css">
+        <title>Dashboard Parkline</title>
+    </head>
+    <body>
+        <div class="dashboard-container">
+            <!-- Sidebar Menu -->
+            <nav class="sidebar">
+                <h2>Parkline Dashboard</h2>
+                <img th:src="@{/img/logoact.png}" alt="Logo" style="width: 100%; margin-top: 10px;" />
+                <ul>
+                    <li><a href="#" onclick="mostrarSeccion('reservas')">Reservas</a></li>
+                    <li><a href="#" onclick="mostrarSeccion('empleados')">Empleados</a></li>
+                    <li><a href="#" onclick="mostrarSeccion('usuarios')">Usuarios</a></li>
+                    <li><a href="#" onclick="mostrarSeccion('historial')">Historial</a></li>
+                </ul>
+            </nav>
 
-        <!-- Main Content -->
-        <div class="main-content">
-            <header>
-                <h1>Bienvenido a Parkline</h1>
-            </header>
+            <!-- Main Content -->
+            <div class="main-content">
+                <header>
+                    <h1>Bienvenido a Parkline</h1>
+                </header>
 
-            <!-- Sección Reservas -->
-            <section id="reservas" class="seccion" style="display: block;">
-                <div class="search-add-bar">
-                    <input type="text" id="buscarReservas" onkeyup="buscarAutos()" placeholder="Buscar reservas...">
-                    <a th:href="@{/nuevares}" class="btn btn-primary" role="button">Agregar Reserva</a>
-                </div>
+                <!-- Sección Reservas -->
+                <section id="reservas" class="seccion" style="display: block;">
+                    <div class="search-add-bar">
 
-                <h2>Reservas</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Usuario</th>
-                            <th>Placa</th>
-                            <th>Hora de Entrada</th>
-                            <th>Hora de Salida</th>
-                            <th>Espacio</th>
-                            <th>Pago</th>
-                            <th>Fecha</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody id="reservas-body">
-                        <tr th:each="res, estado : ${listareserva}">
-                            <td th:text="${res.ID}"></td>
-                            <td th:text="${res.usuario}"></td>
-                            <td th:text="${res.placa}"></td>
-                            <td th:text="${res.hora_entrada}"></td>
-                            <td th:text="${res.hora_salida}"></td>
-                            <td th:text="${res.espacio}"></td>
-                            <td th:text="${res.pago}"></td>
-                            <td th:text="${res.fecha}"></td>
-                            <td><a th:href="@{/reserva/editar/{ID}(ID=${res.ID})}" class="btn btn-warning">Editar</a>
-                                <a th:href="@{/reserva/eliminar/{ID}(ID=${res.ID})}" class="btn btn-danger">Eliminar</a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
+                        <input type="text" id="buscarAuto" onkeyup="buscarAutos()" placeholder="Buscar auto...">
 
-            <!-- Sección Usuarios -->
-            <section id="Usuarios" class="seccion" style="display:none;">
-                <div class="search-add-bar">
-                    <input type="text" id="buscarUsuarios" onkeyup="buscarEnTabla('buscarEspacios', 'espacios-body')" placeholder="Buscar espacios...">
-                    <button onclick="agregarUsuarios()">Agregar Usuarios</button>
-                </div>
-                <h2>Espacios Disponibles</h2>
-                <table>
-                    <thead>
-                        <tr>                           
-                            <th>ID</th>
-                            <th>Nombre</th>
-                            <th>Apellido</th>
-                            <th>Dni</th>
-                            <th>Email</th>
-                            <th>Teléfono</th>
-                            <th>Contraseña</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody id="usuarios-body">
-                        <!-- Datos llenados por JavaScript -->
-                    </tbody>
-                </table>
-            </section>
+                        <!-- Botones para buscar por placa y agregar reservas -->
+                        <button class="btn btn-primary" onclick="buscarPorPlaca()">Buscar por Placa</button>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalReserva">Registrar Reserva</button>
 
-            <!-- Sección Historial -->
-            <section id="historial" class="seccion" style="display:none;">
-                <div class="search-add-bar">
-                    <input type="text" id="buscarHistorial" onkeyup="buscarEnTabla('buscarEspacios', 'espacios-body')" placeholder="Buscar espacios...">
-                    <button onclick="agregarHistorial()">Agregar Historial</button>
-                </div>
-                <h2>Historial</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Usuario</th>
-                            <th>Empleado</th>
-                            <th>Placa</th>
-                            <th>Fecha</th>
-                            <th>Pago</th>
-                            <th>Ubicación</th>
-                        </tr>
-                    </thead>
-                    <tbody id="historial-body">
-                        <!-- Datos llenados por JavaScript -->
-                    </tbody>
-                </table>
-            </section>
+                    </div>
 
-            <!-- Sección Empleados -->
-            <section id="empleados" class="seccion" style="display:none;">
-                <div class="search-add-bar">
-                    <input type="text" id="buscarEmpleados" onkeyup="buscarEnTabla('buscarEmpleados', 'empleado-body')" placeholder="Buscar Empleados...">
-                    <a th:href="@{/nuevoemp}" class="btn btn-primary" role="button">Agregar Empleado</a>
-                </div>
-                <h2>Gestión de Empleados</h2>
-                <table>
-                    <thead>
-                        <tr>                           
-                            <th>ID</th>
-                            <th>Nombre</th>
-                            <th>Apellidos</th>
-                            <th>Dni</th>
-                            <th>Teléfono</th>
-                            <th>Email</th>
-                            <th>Rol</th>
-                            <th>Contraseña</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody id="empleados-body">
-                        <tr th:each="emp, estado : ${lista}" >                         
-                            <td th:text="${emp.id}"></td>
-                            <td th:text="${emp.nombre_empl}"></td>
-                            <td th:text="${emp.apellido_empl}"></td>
-                            <td th:text="${emp.dni}"></td>
-                            <td th:text="${emp.telefono}"></td>
-                            <td th:text="${emp.email}"></td>
-                            <td th:text="${emp.rol}"></td>
-                            <td th:text="${emp.contrasena}"></td>
-                            <td><a th:href="@{/empleado/editar/{id}(id=${emp.id})}" class="btn btn-warning"> Editar</a>
-                                <a th:href="@{/empleado/eliminar/{id}(id=${emp.id})}" class="btn btn-danger"> Eliminar</a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
+                    <!-- Tabla de Reservas -->
+                    <h2>Reservas</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Usuario</th>
+                                <th>Placa</th>
+                                <th>Hora de Entrada</th>
+                                <th>Hora de Salida</th>
+                                <th>Espacio</th>
+                                <th>Pago</th>
+                                <th>Fecha</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reservas-body">
+                            <tr th:each="res, estado : ${listareserva}">
+                                <td th:text="${res.ID}"></td>
+                                <td th:text="${res.usuario}"></td>
+                                <td th:text="${res.placa}"></td>
+                                <td th:text="${res.hora_entrada}"></td>
+                                <td th:text="${res.hora_salida}"></td>
+                                <td th:text="${res.espacio}"></td>
+                                <td th:text="${res.pago}"></td>
+                                <td th:text="${res.fecha}"></td>
+                                <td><a th:href="@{/reserva/editar/{ID}(ID=${res.ID})}" class="btn btn-warning">Editar</a>
+                                    <a th:href="@{/reserva/eliminar/{ID}(ID=${res.ID})}" class="btn btn-danger">Eliminar</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+              
+                    <!-- Modal -->
+                    <div class="modal fade" id="modalReserva" tabindex="-1" aria-labelledby="modalReservaLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modalReservaLabel">Nueva Reserva</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="@{/api/reserva}" method="post" th:object="${reserva}">
+                                        <div class="mb-3">
+                                            <label for="usuario" class="form-label">Usuario</label>
+                                            <input type="text" class="form-control" id="usuario" th:field="*{usuario}" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="placa" class="form-label">Placa</label>
+                                            <input type="text" class="form-control" id="placa" th:field="*{placa}" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="hora_entrada" class="form-label">Hora Entrada</label>
+                                            <input type="time" class="form-control" id="hora_entrada" th:field="*{hora_entrada}" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="hora_salida" class="form-label">Hora Salida</label>
+                                            <input type="time" class="form-control" id="hora_salida" th:field="*{hora_salida}" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="espacio" class="form-label">Espacio</label>
+                                            <select class="form-select" id="espacio" th:field="*{espacio}" required>
+                                                <option th:each="espacio : ${espacio}" th:value="${espacio}" th:text="${espacio}"></option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="pago" class="form-label">Pago</label>
+                                            <input type="number" class="form-control" id="pago" th:field="*{pago}" required step="0.01">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="fecha" class="form-label">Fecha</label>
+                                            <input type="date" class="form-control" id="fecha" th:field="*{fecha}" required>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-primary">Registrar Reserva</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </section>
+
+                <!-- Sección Usuarios -->
+                <section id="Usuarios" class="seccion" style="display:none;">
+                    <div class="search-add-bar">
+                        <input type="text" id="buscarUsuarios" onkeyup="buscarEnTabla('buscarEspacios', 'espacios-body')" placeholder="Buscar espacios...">
+                        <button onclick="agregarUsuarios()">Agregar Usuarios</button>
+                    </div>
+                    <h2>Espacios Disponibles</h2>
+                    <table>
+                        <thead>
+                            <tr>                           
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Apellido</th>
+                                <th>Dni</th>
+                                <th>Email</th>
+                                <th>Teléfono</th>
+                                <th>Contraseña</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usuarios-body">
+                            <!-- Datos llenados por JavaScript -->
+                        </tbody>
+                    </table>
+                </section>
+
+                <!-- Sección Historial -->
+                <section id="historial" class="seccion" style="display:none;">
+                    <div class="search-add-bar">
+                        <input type="text" id="buscarHistorial" onkeyup="buscarEnTabla('buscarEspacios', 'espacios-body')" placeholder="Buscar espacios...">
+                        <button onclick="agregarHistorial()">Agregar Historial</button>
+                    </div>
+                    <h2>Historial</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Usuario</th>
+                                <th>Empleado</th>
+                                <th>Placa</th>
+                                <th>Fecha</th>
+                                <th>Pago</th>
+                                <th>Ubicación</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historial-body">
+                            <!-- Datos llenados por JavaScript -->
+                        </tbody>
+                    </table>
+                </section>
+
+                <!-- Sección Empleados -->
+                <section id="empleados" class="seccion" style="display:none;">
+                    <div class="search-add-bar">
+                        
+                        <input type="text" id="buscarEmpleado" placeholder="Buscar Empleado...">
+
+                        <!-- Botones para buscar por placa y agregar reservas -->
+                        <button class="btn btn-primary" onclick="buscarPorNombre()">Buscar Empleado</button>
+                        
+                        <a th:href="@{/nuevoemp}" class="btn btn-primary" role="button">Agregar Empleado</a>
+                    </div>
+                    <h2>Gestión de Empleados</h2>
+                    <table>
+                        <thead>
+                            <tr>                           
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Apellidos</th>
+                                <th>Dni</th>
+                                <th>Teléfono</th>
+                                <th>Email</th>
+                                <th>Rol</th>
+                                <th>Contraseña</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="empleados-body">
+                            <tr th:each="emp, estado : ${lista}" >                         
+                                <td th:text="${emp.id}"></td>
+                                <td th:text="${emp.nombre_empl}"></td>
+                                <td th:text="${emp.apellido_empl}"></td>
+                                <td th:text="${emp.dni}"></td>
+                                <td th:text="${emp.telefono}"></td>
+                                <td th:text="${emp.email}"></td>
+                                <td th:text="${emp.rol}"></td>
+                                <td th:text="${emp.contrasena}"></td>
+                                <td><a th:href="@{/empleado/editar/{id}(id=${emp.id})}" class="btn btn-warning"> Editar</a>
+                                    <a th:href="@{/empleado/eliminar/{id}(id=${emp.id})}" class="btn btn-danger"> Eliminar</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+            </div>
         </div>
-    </div>
 
-    <script src="/scripts.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-</body>
+        <script src="/scripts.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    </body>
 </html>
