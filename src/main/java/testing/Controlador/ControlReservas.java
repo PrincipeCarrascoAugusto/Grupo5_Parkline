@@ -32,7 +32,7 @@ public class ControlReservas {
     @GetMapping("/guarres")
     public String GuadarRes(@ModelAttribute("reserva") Reserva res){
         resService.save(res);
-        return "index";
+        return "pago";
     }
     
     @PostMapping("/api/reserva")
