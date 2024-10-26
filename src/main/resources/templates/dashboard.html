@@ -19,6 +19,7 @@
                 <ul>
                     <li><a href="#" onclick="mostrarSeccion('reservas')">Reservas</a></li>
                     <li><a href="#" onclick="mostrarSeccion('empleados')">Empleados</a></li>
+                    <li><a href="#" onclick="mostrarSeccion('recompensas')">Recompensas</a></li>
                     <li><a href="#" onclick="mostrarSeccion('usuarios')">Usuarios</a></li>
                     <li><a href="#" onclick="mostrarSeccion('historial')">Historial</a></li>
                 </ul>
@@ -221,6 +222,80 @@
                         </tbody>
                     </table>
                 </section>
+                
+                <!-- Sección Historial -->
+                <section id="historial" class="seccion" style="display:none;">
+                    <div class="search-add-bar">
+                        <input type="text" id="buscarHistorial" onkeyup="buscarEnTabla('buscarEspacios', 'espacios-body')" placeholder="Buscar espacios...">
+                        <button onclick="agregarHistorial()">Agregar Historial</button>
+                    </div>
+                    <h2>Historial</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Usuario</th>
+                                <th>Empleado</th>
+                                <th>Placa</th>
+                                <th>Fecha</th>
+                                <th>Pago</th>
+                                <th>Ubicación</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historial-body">
+                            <!-- Datos llenados por JavaScript -->
+                        </tbody>
+                    </table>
+                </section>
+
+                
+                
+                
+                
+                <!-- Sección Recompensas -->
+                <section id="recompensas" class="seccion" style="display:none;">
+                    <div class="search-add-bar">
+                        
+                        <input type="text" id="buscarRecompensas" placeholder="Buscar recompensa...">
+
+                        <!-- Botones para buscar por placa y agregar reservas -->
+                        <button class="btn btn-primary" onclick="buscarPorNombre()">Buscar Recompensa</button>
+                        
+                        <a th:href="@{/nuevoemp}" class="btn btn-primary" role="button">Agregar Recompensa</a>
+                    </div>
+                    <h2>Tabla de Recompensas</h2>
+                    <table>
+                        <thead>
+                            <tr>                           
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Descripción</th>
+                                <th>Imagen</th>
+                                <th>Puntos necesarios</th>
+                                <th>Activo</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recompensas-body">
+                            <tr th:each="recom, estado : ${listarecompensas}" >                         
+                                <td th:text="${recom.ID_recom}"></td>
+                                <td th:text="${recom.nom_recom}"></td>
+                                <td th:text="${recom.descri_recom}"></td>
+                                <td th:text="${recom.imagen}"></td>
+                                <td th:text="${recom.puntos_necesarios}"></td>
+                                <td th:text="${recom.activo}"></td>
+                                <td><a th:href="@{/recompensas/editar/{ID_recom}(id=${recom.ID_recom})}" class="btn btn-warning"> Editar</a>
+                                    <a th:href="@{/recompensas/eliminar/{ID_recom}(id=${recom.ID_recom})}" class="btn btn-danger"> Eliminar</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+                
+                
+                
+                
+                
             </div>
         </div>
 

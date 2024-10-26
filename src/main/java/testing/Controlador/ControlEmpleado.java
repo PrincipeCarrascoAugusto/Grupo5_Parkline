@@ -11,8 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import testing.Servicio.ReservaService;
-import testing.Servicio.empleadoService;
+import testing.Servicio.*;
 import testing.modelo.Reserva;
 import testing.modelo.empleado;
 
@@ -26,6 +25,9 @@ public class ControlEmpleado {
     
     @Autowired
     private empleadoService empleadoservice;
+    
+    @Autowired
+    private RecompensasService recompensasservice;
     
     //Listas de roles y espacios disponibles
     List<String> listarol = Arrays.asList("Administrador","Empleado");
@@ -143,6 +145,18 @@ public class ControlEmpleado {
     public String get(Model modelo){
         modelo.addAttribute("lista",empleadoservice.get());
         modelo.addAttribute("listareserva", reservaservice.get());
+        modelo.addAttribute("listarecompensas",recompensasservice.get());
         return "/api/dashboard";
     }
+    
+    
+    //CRUD para las recompensas
+    
+    
+    
+    
+    
+    
+    
+    
 }
