@@ -15,12 +15,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import testing.modelo.Reserva;
 
+//Indica que la clase es un controlador
 @Controller
 @RequestMapping("/api")
 public class ControlDashboard {
-
+    
+    //Inyecta los servicio de reserva y empleado
     @Autowired
     private empleadoService emplService;
+    
     @Autowired
     private ReservaService resService;
     
@@ -29,6 +32,7 @@ public class ControlDashboard {
 
     @GetMapping("/dashboard")
     public String listaempleados(Model modelo) {
+        //Agregamos ala lista de empleados,reservas,espacios al dashboard
         modelo.addAttribute("lista", emplService.get());
         modelo.addAttribute("listareserva", resService.get());
         modelo.addAttribute("reserva", new Reserva()); // Modelo para el formulario

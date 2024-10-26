@@ -1,7 +1,9 @@
-
 package testing.modelo;
 
+//Librerias
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+
 
 @Entity
 @Table(name="usuarios")
@@ -12,6 +14,8 @@ public class Usuarios {
     @Column
     private String nombre;
     @Column
+    @NotEmpty(message="Debe de ingresar un nombre")
+    @Size(min=4, max=20, message="el nombre debe tener entre 4 a 20 caracteres")
     private String apellido;
     @Column
     private String dni;
