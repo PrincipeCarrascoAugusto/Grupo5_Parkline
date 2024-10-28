@@ -65,5 +65,4 @@ public class empleado {
     public void setContrasena(Integer contrasena) {this.contrasena = contrasena;}
 
     
-    
 }

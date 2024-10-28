@@ -1,0 +1,70 @@
+body {
+    background: #282c34;
+    animation: color-change 6s infinite alternate;
+}
+
+@keyframes color-change {
+    0% {
+        background-color: #282c34;
+    }
+    25% {
+        background-color: #3d3d3d;
+    }
+    50% {
+        background-color: #4d4d4d;
+    }
+    75% {
+        background-color: #5d5d5d;
+    }
+    100% {
+        background-color: #666666;
+    }
+}
+
+.container {
+    max-width: 600px; /* Ancho máximo del formulario */
+    margin: 0 auto; /* Centramos el contenedor */
+    padding: 20px; /* Espacio alrededor del formulario */
+    background-color: rgba(255, 255, 255, 0.9); /* Fondo más claro para mejor contraste */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Sombra para hacer el formulario más prominente */
+}
+
+h2 {
+    color: #000; /* Color del título del formulario */
+    text-align: center; /* Centrar el título */
+}
+
+table {
+    width: 100%; /* Hacer que la tabla ocupe el 100% del contenedor */
+}
+
+td {
+    padding: 15px; /* Espacio interno en las celdas de la tabla */
+}
+
+label {
+    margin-bottom: 5px; /* Espacio entre la etiqueta y el campo */
+    display: block; /* Asegurarse de que las etiquetas estén en una línea nueva */
+    color: #000; /* Color de las etiquetas */
+    font-weight: bold; /* Hacer las etiquetas más prominentes */
+}
+
+input, select {
+    width: 100%; /* Asegurarse de que los campos ocupen todo el ancho disponible */
+    padding: 10px; /* Espacio interno en los campos */
+    border-radius: 5px; /* Bordes redondeados para los campos */
+    border: 1px solid #ccc; /* Borde claro para los campos */
+}
+
+input:focus, select:focus {
+    border-color: #007bff; /* Cambiar el color del borde al enfocarse */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Sombra al enfocar */
+}
+
+button {
+    margin-top: 15px; /* Espacio arriba del botón */
+    width: auto; /* Ancho automático */
+    padding: 12px 20px; /* Aumentar el tamaño del botón */
+    font-size: 16px; /* Aumentar el tamaño de la fuente del botón */
+}

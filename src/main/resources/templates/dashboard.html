@@ -38,7 +38,9 @@
 
                         <!-- Botones para buscar por placa y agregar reservas -->
                         <button class="btn btn-primary" onclick="buscarPorPlaca()">Buscar por Placa</button>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalReserva">Registrar Reserva</button>
+                        <a th:href="@{/reservas}" class="btn btn-primary">Registrar Reservas</a>
+                        <button class="btn btn-primary" onclick="window.location.href='/api/reporte/excel'">Generar Reporte</button>
+
 
                     </div>
 
@@ -188,6 +190,7 @@
                         <button class="btn btn-primary" onclick="buscarPorNombre()">Buscar Empleado</button>
                         
                         <a th:href="@{/nuevoemp}" class="btn btn-primary" role="button">Agregar Empleado</a>
+                        <button class="btn btn-primary" onclick="window.location.href='/api/reporte/empleados/excel'">Generar Reporte</button>
                     </div>
                     <h2>Gestión de Empleados</h2>
                     <table>
