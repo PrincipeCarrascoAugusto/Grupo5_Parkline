@@ -14,12 +14,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import testing.Servicio.*;
 import testing.modelo.Reserva;
 import testing.modelo.empleado;
+import testing.modelo.Recompensas;
 
 //Indica que la clase es un controlador 
 @Controller
 public class ControlEmpleado {
 
-    //Inyecta los servicio de reserva y empleado
+    //Inyecta los servicio de reserva, empleado y recompensa
     @Autowired
     private ReservaService reservaservice;
     
@@ -152,11 +153,51 @@ public class ControlEmpleado {
     
     //CRUD para las recompensas
     
+    @GetMapping("/nuevarecom")
+    public String NuevaRecom(Model modelo){
+        //Se crea un nuevo objeto "rec", retorna la vista "nuevareserva"
+        Recompensas rec = new Recompensas();
+        modelo.addAttribute("recompensas", rec);
+        return "nuevarecompensa";
+    }
     
     
+    @GetMapping("/guardarrecom")
+    public String GuardarRec(@ModelAttribute("recompensas") Recompensas rec){
+        //Valida el objeto recompensas, si es asi te lleva la dashboard
+        recompensasservice.save(rec);
+        return "redirect:/api/dashboard";
+    }
     
     
+    @GetMapping("/recompensas/editar/{ID_recom}")
+    public String EditarRec(@PathVariable Integer ID_recom,Model modelo){
+        //Método para llamar a una recompensa a traves de su id
+        modelo.addAttribute("recompensas", recompensasservice.get(ID_recom));
+        return "editarrecompensa";
+    }
+    
+    @GetMapping("/recompensas/actualizar/{ID_recom}")
+    public String ActualizarRec(@PathVariable Integer ID_recom,@ModelAttribute("recompensas") Recompensas recompensas){
+        //Método para actualizar a una recompensas que sera llamado a traves de su id
+        Recompensas actual = recompensasservice.get(ID_recom);
+        actual.setID_recom(ID_recom);
+        actual.setNom_recom(recompensas.getNom_recom());
+        actual.setDescri_recom(recompensas.getDescri_recom());
+        actual.setImagen(recompensas.getImagen());
+        actual.setPuntos_necesarios(recompensas.getPuntos_necesarios());
+        actual.setActivo(recompensas.isActivo());
+        recompensasservice.update(actual);
+        return "redirect:/api/dashboard";
+    }
+    
+    @GetMapping("/recompensas/eliminar/{ID_recom}")
+    public String EliminarRec(@PathVariable Integer ID_recom){
+        //Método para eliminar una recompensas a traves de su id
+        recompensasservice.delete(ID_recom);
+        return "redirect:/api/dashboard";
+    }
     
     
-    
+   
 }

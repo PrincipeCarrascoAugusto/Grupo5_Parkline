@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Editar empleado ParkLine</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    </head>
+    <body>
+        <div class="container">
+        <h2>Actualización de Recompensa</h2>
+        <form role="form" th:action="@{/recompensas/editar/{ID_recom}(ID_recom=${recompensas.ID_recom})}"
+                                                    th:object="${recompensas}">
+            <table> 
+                <tr><td><label class="form-label">ID Recompensa</label></td>
+                    <td> <input type="text" th:field="*{ID_recom}" class="form-control" disabled ></td>
+                </tr>
+                
+                <tr><td><label class="form-label">Nombre de la recompensa</label></td>
+                    <td> <input type="text" th:field="*{nom_recom}" class="form-control" ></td>
+                </tr>
+                
+                <tr><td><label class="form-label">Descripción</label></td>
+                    <td> <input type="text" th:field="*{descri_recom}" class="form-control" ></td>
+                </tr>
+                
+                <tr>
+                    <td><label class="form-label">Imagen</label></td>
+                    <td>
+                        <input type="file" accept="image/*" th:field="*{imagen}" class="form-control" required>
+                        <small class="form-text text-muted">Por favor, sube una imagen de la prenda.</small>
+                    </td>
+                </tr>
+                
+                <tr><td><label class="form-label">Puntos necesarios</label></td>
+                    <td> <input type="text" th:field="*{puntos_necesarios}" class="form-control" ></td>
+                </tr>
+                
+                
+                <tr>
+                    <td><label class="form-label">Activo</label></td>
+                    <td>
+                        <select th:field="*{activo}" class="form-control">
+                            <option value="true">Activo</option>
+                            <option value="false">Inactivo</option>
+                        </select>
+                    </td>
+                </tr>                
+                <tr>                   
+                    <td align="center">
+                         <br><button type="submit" class="btn btn-primary">Actualizar Datos</button></td>
+                </tr>          
+          </table>
+        </form>
+      </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    </body>
+</html>

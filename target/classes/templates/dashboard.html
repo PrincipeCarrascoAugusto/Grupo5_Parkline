@@ -261,7 +261,7 @@
                         <!-- Botones para buscar por placa y agregar reservas -->
                         <button class="btn btn-primary" onclick="buscarPorNombre()">Buscar Recompensa</button>
                         
-                        <a th:href="@{/nuevoemp}" class="btn btn-primary" role="button">Agregar Recompensa</a>
+                        <a th:href="@{/nuevarecom}" class="btn btn-primary" role="button">Agregar Recompensa</a>
                     </div>
                     <h2>Tabla de Recompensas</h2>
                     <table>
@@ -284,8 +284,8 @@
                                 <td th:text="${recom.imagen}"></td>
                                 <td th:text="${recom.puntos_necesarios}"></td>
                                 <td th:text="${recom.activo}"></td>
-                                <td><a th:href="@{/recompensas/editar/{ID_recom}(id=${recom.ID_recom})}" class="btn btn-warning"> Editar</a>
-                                    <a th:href="@{/recompensas/eliminar/{ID_recom}(id=${recom.ID_recom})}" class="btn btn-danger"> Eliminar</a>
+                                <td><a th:href="@{/recompensas/editar/{ID_recom}(ID_recom=${recom.ID_recom})}" class="btn btn-warning"> Editar</a>
+                                    <a th:href="@{/recompensas/eliminar/{ID_recom}(ID_recom=${recom.ID_recom})}" class="btn btn-danger"> Eliminar</a>
                                 </td>
                             </tr>
                         </tbody>

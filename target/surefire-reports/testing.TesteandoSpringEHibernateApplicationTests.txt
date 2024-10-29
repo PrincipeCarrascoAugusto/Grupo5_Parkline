@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: testing.TesteandoSpringEHibernateApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 13.026 s - in testing.TesteandoSpringEHibernateApplicationTests
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 8.146 s - in testing.TesteandoSpringEHibernateApplicationTests
