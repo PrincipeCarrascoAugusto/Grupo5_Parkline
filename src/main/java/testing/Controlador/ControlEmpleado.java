@@ -5,7 +5,11 @@ import jakarta.validation.*;
 import java.util.Arrays;
 import java.util.List;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.time.LocalDate;
+import org.apache.commons.io.FileUtils;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -93,7 +97,7 @@ public class ControlEmpleado {
         empleadoservice.update(actual);
         return "redirect:/api/dashboard";
     }
-
+    
     @GetMapping("/empleado/eliminar/{id}")
     public String EliminarEmp(@PathVariable Integer id){
         //Método para eliminar un empleado que sera llamado a traves de su id
@@ -158,21 +162,23 @@ public class ControlEmpleado {
         return "/api/dashboard";
     }
 
-
-    // Método para generar el reporte en Excel de empleados
+    // Método para generar el reporte de empleados en Excel y almacenarlo
     @GetMapping("/api/reporte/empleados/excel")
-    public ResponseEntity<byte[]> generarReporteEmpleados() {
+    public ResponseEntity<byte[]> generarYGuardarReporteEmpleados() {
         try (Workbook workbook = new XSSFWorkbook()) {
             Sheet sheet = workbook.createSheet("Reporte de Empleados");
-            List<empleado> empleados = empleadoservice.get();
+            List<empleado> empleados = empleadoservice.get(); // Asegúrate de que la clase se llame "Empleado"
 
             // Crear estilo para el título
             CellStyle titleStyle = workbook.createCellStyle();
             Font titleFont = workbook.createFont();
             titleFont.setBold(true);
             titleFont.setFontHeightInPoints((short) 16);
+            titleFont.setColor(IndexedColors.WHITE.getIndex());
             titleStyle.setFont(titleFont);
             titleStyle.setAlignment(HorizontalAlignment.CENTER);
+            titleStyle.setFillForegroundColor(IndexedColors.DARK_BLUE.getIndex());
+            titleStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
             // Título del reporte
             Row titleRow = sheet.createRow(0);
@@ -187,7 +193,13 @@ public class ControlEmpleado {
             headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
             Font headerFont = workbook.createFont();
             headerFont.setBold(true);
+            headerFont.setColor(IndexedColors.WHITE.getIndex());
             headerStyle.setFont(headerFont);
+            headerStyle.setAlignment(HorizontalAlignment.CENTER);
+            headerStyle.setBorderBottom(BorderStyle.THIN);
+            headerStyle.setBorderTop(BorderStyle.THIN);
+            headerStyle.setBorderLeft(BorderStyle.THIN);
+            headerStyle.setBorderRight(BorderStyle.THIN);
 
             // Encabezados de columnas
             Row headerRow = sheet.createRow(1);
@@ -198,17 +210,47 @@ public class ControlEmpleado {
                 cell.setCellStyle(headerStyle);
             }
 
+            // Estilo para datos con color morado claro
+            CellStyle dataStyle = workbook.createCellStyle();
+            dataStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+            dataStyle.setBorderBottom(BorderStyle.THIN);
+            dataStyle.setBorderTop(BorderStyle.THIN);
+            dataStyle.setBorderLeft(BorderStyle.THIN);
+            dataStyle.setBorderRight(BorderStyle.THIN);
+            dataStyle.setFillForegroundColor(IndexedColors.LAVENDER.getIndex()); // Cambiar a morado claro
+            dataStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
             // Rellenar datos de empleados
             int rowNum = 2;
             for (empleado emp : empleados) {
                 Row row = sheet.createRow(rowNum++);
-                row.createCell(0).setCellValue(emp.getId());
-                row.createCell(1).setCellValue(emp.getNombre_empl());
-                row.createCell(2).setCellValue(emp.getApellido_empl());
-                row.createCell(3).setCellValue(emp.getDni());
-                row.createCell(4).setCellValue(emp.getTelefono());
-                row.createCell(5).setCellValue(emp.getEmail());
-                row.createCell(6).setCellValue(emp.getRol());
+                for (int i = 0; i < headers.length; i++) {
+                    Cell cell = row.createCell(i);
+                    switch (i) {
+                        case 0:
+                            cell.setCellValue(emp.getId());
+                            break;
+                        case 1:
+                            cell.setCellValue(emp.getNombre_empl());
+                            break;
+                        case 2:
+                            cell.setCellValue(emp.getApellido_empl());
+                            break;
+                        case 3:
+                            cell.setCellValue(emp.getDni());
+                            break;
+                        case 4:
+                            cell.setCellValue(emp.getTelefono());
+                            break;
+                        case 5:
+                            cell.setCellValue(emp.getEmail());
+                            break;
+                        case 6:
+                            cell.setCellValue(emp.getRol());
+                            break;
+                    }
+                    cell.setCellStyle(dataStyle); // Aplicar estilo de datos a cada celda
+                }
             }
 
             // Ajustar ancho de columnas automáticamente
@@ -216,25 +258,43 @@ public class ControlEmpleado {
                 sheet.autoSizeColumn(i);
             }
 
-            // Convertir a arreglo de bytes para descargar
+            // Guardar el archivo en una carpeta organizada por fecha
+            String fechaActual = LocalDate.now().toString();
+            String nombreArchivo = "reporte_empleados_" + fechaActual + ".xlsx";
+            String rutaCarpeta = "reportes/" + fechaActual;
+            File directorio = new File(rutaCarpeta);
+
+            // Crear el directorio si no existe
+            if (!directorio.exists()) {
+                FileUtils.forceMkdir(directorio);
+            }
+
+            // Guardar el archivo en el directorio de reportes
+            File archivoReporte = new File(directorio, nombreArchivo);
+            try (FileOutputStream fileOut = new FileOutputStream(archivoReporte)) {
+                workbook.write(fileOut);
+            }
+
+            // Convertir a arreglo de bytes para ofrecer como descarga
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             workbook.write(outputStream);
             byte[] excelBytes = outputStream.toByteArray();
 
             // Configuración de headers HTTP para descarga
             HttpHeaders headersHttp = new HttpHeaders();
-            headersHttp.add("Content-Disposition", "attachment; filename=reporte_empleados.xlsx");
+            headersHttp.add("Content-Disposition", "attachment; filename=" + nombreArchivo);
 
             return new ResponseEntity<>(excelBytes, headersHttp, HttpStatus.OK);
+
         } catch (IOException e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
+
+  
     
     //CRUD para las recompensas
-    
     @GetMapping("/nuevarecom")
     public String NuevaRecom(Model modelo){
         //Se crea un nuevo objeto "rec", retorna la vista "nuevareserva"

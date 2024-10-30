@@ -76,7 +76,11 @@
 <body>
     <div class="container">
         <h2>Reserva aqui!!!</h2>
-        <form role="form" th:action="@{/guardarres}" th:object="${reserva}">
+        <!-- Mensaje de error -->
+        <div th:if="${error}" class="alert alert-danger" role="alert">
+            <span th:text="${error}"></span>
+        </div>
+        <form role="form" th:action="@{/guardar}" th:object="${reserva}" method="post">
             <table>
                 <tr>
                     <td><label class="form-label">Usuario</label></td>

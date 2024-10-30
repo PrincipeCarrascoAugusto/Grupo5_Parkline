@@ -1,10 +1,15 @@
 package testing.Controlador;
 
-
+import com.google.common.base.Preconditions;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
+import org.apache.commons.io.FileUtils;
+import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.FillPatternType;
@@ -33,7 +38,7 @@ import testing.modelo.Reserva;
 //Indica que la clase es un controlador
 @Controller
 public class ControlReservas {
-    
+
     //Inyecta el servicio reserva
     @Autowired
     private ReservaService resService;
@@ -48,24 +53,51 @@ public class ControlReservas {
         modelo.addAttribute("espacio", listaespacio);
         return "Reservas";
     }
-    
+
     @GetMapping("/guarres")
-    public String GuadarRes(@ModelAttribute("reserva") Reserva res){
-        //Guarda el objeto Reserva en la BD y retorna a pago
-        resService.save(res);
-        return "pago";
+    public String GuadarRes(@ModelAttribute("reserva") Reserva res, Model modelo) {
+        try {
+            // Validaciones utilizando Preconditions
+            Preconditions.checkArgument(res.getUsuario() != null && !res.getUsuario().trim().isEmpty(), "El nombre de usuario es obligatorio");
+            Preconditions.checkArgument(res.getPlaca() != null && !res.getPlaca().trim().isEmpty(), "La placa del vehículo es obligatoria");
+            Preconditions.checkArgument(res.getHora_entrada().isBefore(res.getHora_salida()), "La hora de entrada debe ser anterior a la hora de salida");        
+            Preconditions.checkArgument(res.getFecha() != null, "La fecha es obligatoria");
+            // Guarda el objeto Reserva en la BD
+            resService.save(res);
+            return "redirect:/parkline"; // Redirige a la página principal después de guardar
+        } catch (IllegalArgumentException e) {
+            // Agrega un mensaje de error al modelo
+            modelo.addAttribute("error", e.getMessage());
+            modelo.addAttribute("espacio", listaespacio);
+            modelo.addAttribute("reserva", res); // Mantiene los datos del formulario
+            return "Reservas"; // Retorna a la vista de index para que el usuario vea el mensaje de error
+        }
     }
-    
-    @PostMapping("/api/reserva")
-    public String handleReserva(@ModelAttribute("reserva") Reserva nuevaReserva) {
-        
-        resService.save(nuevaReserva); // Guarda la nueva reserva utilizando el servicio
-        return "redirect/api/dashboard"; // Redirige al dashboard después de guardar
+
+    @PostMapping("/guardar")
+    public String handleReserva(@ModelAttribute("reserva") Reserva nuevaReserva, Model modelo) {
+        try {
+            // Validaciones utilizando Preconditions
+            Preconditions.checkArgument(nuevaReserva.getUsuario() != null && !nuevaReserva.getUsuario().trim().isEmpty(), "El nombre de usuario es obligatorio");
+            Preconditions.checkArgument(nuevaReserva.getPlaca() != null && !nuevaReserva.getPlaca().trim().isEmpty(), "La placa del vehículo es obligatoria");
+            Preconditions.checkArgument(nuevaReserva.getHora_entrada().isBefore(nuevaReserva.getHora_salida()), "La hora de entrada debe ser anterior a la hora de salida");
+            Preconditions.checkArgument(nuevaReserva.getFecha() != null, "La fecha es obligatoria");
+            // Guarda la nueva reserva utilizando el servicio
+            resService.save(nuevaReserva);
+            return "redirect:/api/dashboard"; // Redirige al dashboard después de guardar
+        } catch (IllegalArgumentException e) {
+            // Agrega un mensaje de error al modelo
+            modelo.addAttribute("error", e.getMessage());
+            // Retorna a la vista de reservas para que el usuario vea el mensaje de error
+            modelo.addAttribute("espacio", listaespacio);
+            modelo.addAttribute("reserva", nuevaReserva); // Mantiene los datos del formulario
+            return "nuevareserva"; // Retorna a la vista de reservas
+        }
     }
-    
-    // Método para generar el reporte en Excel con estilos
-    @GetMapping("api/reporte/excel")
-    public ResponseEntity<byte[]> generarReporteExcel() {
+
+    // Método para generar el reporte de reservas en Excel y almacenarlo
+    @GetMapping("/api/reporte/excel")
+    public ResponseEntity<byte[]> generarYGuardarReporteExcel() {
         try (Workbook workbook = new XSSFWorkbook()) {
             Sheet sheet = workbook.createSheet("Reporte de Reservas");
             List<Reserva> reservas = resService.get();
@@ -75,8 +107,11 @@ public class ControlReservas {
             Font titleFont = workbook.createFont();
             titleFont.setBold(true);
             titleFont.setFontHeightInPoints((short) 16);
+            titleFont.setColor(IndexedColors.WHITE.getIndex());
             titleStyle.setFont(titleFont);
             titleStyle.setAlignment(HorizontalAlignment.CENTER);
+            titleStyle.setFillForegroundColor(IndexedColors.DARK_BLUE.getIndex());
+            titleStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
             // Título del reporte
             Row titleRow = sheet.createRow(0);
@@ -91,7 +126,17 @@ public class ControlReservas {
             headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
             Font headerFont = workbook.createFont();
             headerFont.setBold(true);
+            headerFont.setColor(IndexedColors.WHITE.getIndex());
+            headerFont.setFontHeightInPoints((short) 12);
             headerStyle.setFont(headerFont);
+            headerStyle.setAlignment(HorizontalAlignment.CENTER);
+
+            // Estilo para bordes
+            BorderStyle borderStyle = BorderStyle.THIN;
+            headerStyle.setBorderBottom(borderStyle);
+            headerStyle.setBorderTop(borderStyle);
+            headerStyle.setBorderLeft(borderStyle);
+            headerStyle.setBorderRight(borderStyle);
 
             // Encabezados de columnas
             Row headerRow = sheet.createRow(1);
@@ -102,9 +147,16 @@ public class ControlReservas {
                 cell.setCellStyle(headerStyle);
             }
 
-            // Estilo para datos
+            // Estilo para datos (morado claro)
             CellStyle dataStyle = workbook.createCellStyle();
             dataStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+            dataStyle.setWrapText(true);
+            dataStyle.setBorderBottom(borderStyle);
+            dataStyle.setBorderTop(borderStyle);
+            dataStyle.setBorderLeft(borderStyle);
+            dataStyle.setBorderRight(borderStyle);
+            dataStyle.setFillForegroundColor(IndexedColors.LAVENDER.getIndex()); // Cambiar a un tono morado claro
+            dataStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
             // Rellenar datos de reservas
             int rowNum = 2;
@@ -118,7 +170,7 @@ public class ControlReservas {
                 row.createCell(5).setCellValue(reserva.getEspacio());
                 row.createCell(6).setCellValue(reserva.getPago());
                 row.createCell(7).setCellValue(reserva.getFecha().toString());
-                
+
                 // Aplicar estilo de datos a cada celda
                 for (int i = 0; i < headers.length; i++) {
                     row.getCell(i).setCellStyle(dataStyle);
@@ -130,16 +182,34 @@ public class ControlReservas {
                 sheet.autoSizeColumn(i);
             }
 
-            // Convertir a arreglo de bytes para descargar
+            // Guardar el archivo en una carpeta organizada por fecha
+            String fechaActual = LocalDate.now().toString();
+            String nombreArchivo = "reporte_reservas_" + fechaActual + ".xlsx";
+            String rutaCarpeta = "reportes/" + fechaActual;
+            File directorio = new File(rutaCarpeta);
+
+            // Crear el directorio si no existe
+            if (!directorio.exists()) {
+                FileUtils.forceMkdir(directorio);
+            }
+
+            // Guardar el archivo en el directorio de reportes
+            File archivoReporte = new File(directorio, nombreArchivo);
+            try (FileOutputStream fileOut = new FileOutputStream(archivoReporte)) {
+                workbook.write(fileOut);
+            }
+
+            // Convertir a arreglo de bytes para ofrecer como descarga
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             workbook.write(outputStream);
             byte[] excelBytes = outputStream.toByteArray();
 
             // Configuración de headers HTTP para descarga
             HttpHeaders headersHttp = new HttpHeaders();
-            headersHttp.add("Content-Disposition", "attachment; filename=reporte_reservas.xlsx");
+            headersHttp.add("Content-Disposition", "attachment; filename=" + nombreArchivo);
 
             return new ResponseEntity<>(excelBytes, headersHttp, HttpStatus.OK);
+
         } catch (IOException e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
