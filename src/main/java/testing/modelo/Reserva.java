@@ -65,12 +65,8 @@ public class Reserva {
 
     public void setPago(Double pago) {this.pago = pago;}
 
-    public LocalDate getFecha() {
-        return fecha;
-    }
+    public LocalDate getFecha() {return fecha;}
 
-    public void setFecha(LocalDate fecha) {
-        this.fecha = fecha;
-    }
+    public void setFecha(LocalDate fecha) {this.fecha = fecha;}
 
 }

@@ -1,6 +1,7 @@
 package testing.Controlador;
 
-// Librerías
+//Librerias
+import jakarta.validation.*;
 import java.util.Arrays;
 import java.util.List;
 import java.io.ByteArrayOutputStream;
@@ -14,29 +15,42 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import testing.Servicio.ReservaService;
-import testing.Servicio.empleadoService;
+import testing.Servicio.*;
 import testing.modelo.Reserva;
 import testing.modelo.empleado;
+import testing.modelo.Recompensas;
+
+
+//Indica que la clase es un controlador 
 
 @Controller
 public class ControlEmpleado {
 
+    //Inyecta los servicio de reserva, empleado y recompensa
     @Autowired
     private ReservaService reservaservice;
 
     @Autowired
     private empleadoService empleadoservice;
-
-    List<String> listarol = Arrays.asList("Administrador", "Empleado");
-    List<String> listaespacio = Arrays.asList("A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4");
-
-    // CRUD para los empleados
+    
+    @Autowired
+    private RecompensasService recompensasservice;
+    
+    //Listas de roles y espacios disponibles
+    List<String> listarol = Arrays.asList("Administrador","Empleado");
+    List<String> listaespacio = Arrays.asList("A1","A2","A3","A4","B1","B2","B3","B4");
+    
+    //CRUD para los empleados
+    
+    
+    
     @GetMapping("/nuevoemp")
-    public String NuevoEmp(Model modelo) {
+    public String NuevoEmp(Model modelo){
+        //Se crea un nuevo objeto "emp", lo agrega al modelo junto con la lista de roles y retorna la vista "nuevoempleado"
         empleado emp = new empleado();
         modelo.addAttribute("empleado", emp);
         modelo.addAttribute("roles", listarol);
@@ -44,20 +58,29 @@ public class ControlEmpleado {
     }
 
     @GetMapping("/guardaremp")
-    public String GuardarEmp(@ModelAttribute("empleado") empleado empl) {
+    public String GuardarEmp(@Valid @ModelAttribute("empleado") empleado empl, BindingResult resultado, Model modelo){
+        //Valida el objeto empleado si hay errores retorna a nuevoempleado, si no, te retorna al dashboard
+        modelo.addAttribute("roles", listarol);
+        if(resultado.hasErrors()){
+            return "nuevoempleado";
+        }
+        
         empleadoservice.save(empl);
         return "redirect:/api/dashboard";
     }
-
+    
+    
     @GetMapping("/empleado/editar/{id}")
-    public String EditarEmp(@PathVariable Integer id, Model modelo) {
-        modelo.addAttribute("empleado", empleadoservice.get(id));
-        modelo.addAttribute("roles", listarol);
+    public String EditarEmp(@PathVariable Integer id,Model modelo){
+        //Método para llamar a un empleado a traves de su id
+        modelo.addAttribute("empleado",empleadoservice.get(id));
+        modelo.addAttribute("roles",listarol);
         return "editarempleado";
     }
 
     @GetMapping("/empleado/actualizar/{id}")
-    public String ActualizarEmp(@PathVariable Integer id, @ModelAttribute("empleado") empleado empleado) {
+    public String ActualizarEmp(@PathVariable Integer id,@ModelAttribute("empleado") empleado empleado){
+        //Método para actualizar a un empleado que sera llamado a traves de su id
         empleado actual = empleadoservice.get(id);
         actual.setId(id);
         actual.setNombre_empl(empleado.getNombre_empl());
@@ -72,14 +95,16 @@ public class ControlEmpleado {
     }
 
     @GetMapping("/empleado/eliminar/{id}")
-    public String EliminarEmp(@PathVariable Integer id) {
+    public String EliminarEmp(@PathVariable Integer id){
+        //Método para eliminar un empleado que sera llamado a traves de su id
         empleadoservice.delete(id);
         return "redirect:/api/dashboard";
     }
 
     // CRUD para la reserva
     @GetMapping("/nuevares")
-    public String NuevoRes(Model modelo) {
+    public String NuevoRes(Model modelo){
+        //Se crea un nuevo objeto "res", lo agrega al modelo junto con la lista de roles y retorna la vista "nuevareserva"
         Reserva res = new Reserva();
         modelo.addAttribute("reserva", res);
         modelo.addAttribute("espacio", listaespacio);
@@ -87,20 +112,24 @@ public class ControlEmpleado {
     }
 
     @GetMapping("/guardarres")
-    public String GuadarRes(@ModelAttribute("reserva") Reserva res) {
+    public String GuardarRes(@ModelAttribute("reserva") Reserva res){
+        //Valida el objeto reserva, si es asi te lleva la dashboard
         reservaservice.save(res);
         return "redirect:/api/dashboard";
     }
 
     @GetMapping("/reserva/editar/{ID}")
-    public String EditarRes(@PathVariable Integer ID, Model modelo) {
-        modelo.addAttribute("reserva", reservaservice.get(ID));
+    public String EditarRes(@PathVariable Integer ID,Model modelo){
+        //Método para llamar a una reserva a traves de su id
+        modelo.addAttribute("reserva",reservaservice.get(ID));
         modelo.addAttribute("espacio", listaespacio);
         return "editarreserva";
     }
 
     @GetMapping("/reserva/actualizar/{ID}")
-    public String ActualizarRes(@PathVariable Integer ID, @ModelAttribute("reserva") Reserva reserva) {
+    public String ActualizarRes(@PathVariable Integer ID,@ModelAttribute("reserva") Reserva reserva){
+        //Método para actualizar a una reserva que sera llamado a traves de su id
+
         Reserva actual = reservaservice.get(ID);
         actual.setID(ID);
         actual.setUsuario(reserva.getUsuario());
@@ -115,7 +144,8 @@ public class ControlEmpleado {
     }
 
     @GetMapping("/reserva/eliminar/{ID}")
-    public String EliminarRes(@PathVariable Integer ID) {
+    public String EliminarRes(@PathVariable Integer ID){
+        //Método para eliminar una reserva a traves de su id
         reservaservice.delete(ID);
         return "redirect:/api/dashboard";
     }
@@ -124,8 +154,10 @@ public class ControlEmpleado {
     public String get(Model modelo) {
         modelo.addAttribute("lista", empleadoservice.get());
         modelo.addAttribute("listareserva", reservaservice.get());
+        modelo.addAttribute("listarecompensas",recompensasservice.get());
         return "/api/dashboard";
     }
+
 
     // Método para generar el reporte en Excel de empleados
     @GetMapping("/api/reporte/empleados/excel")
@@ -199,4 +231,53 @@ public class ControlEmpleado {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    
+    
+    //CRUD para las recompensas
+    
+    @GetMapping("/nuevarecom")
+    public String NuevaRecom(Model modelo){
+        //Se crea un nuevo objeto "rec", retorna la vista "nuevareserva"
+        Recompensas rec = new Recompensas();
+        modelo.addAttribute("recompensas", rec);
+        return "nuevarecompensa";
+    }
+    
+    
+    @GetMapping("/guardarrecom")
+    public String GuardarRec(@ModelAttribute("recompensas") Recompensas rec){
+        //Valida el objeto recompensas, si es asi te lleva la dashboard
+        recompensasservice.save(rec);
+        return "redirect:/api/dashboard";
+    }
+    
+    
+    @GetMapping("/recompensas/editar/{ID_recom}")
+    public String EditarRec(@PathVariable Integer ID_recom,Model modelo){
+        //Método para llamar a una recompensa a traves de su id
+        modelo.addAttribute("recompensas", recompensasservice.get(ID_recom));
+        return "editarrecompensa";
+    }
+    
+    @GetMapping("/recompensas/actualizar/{ID_recom}")
+    public String ActualizarRec(@PathVariable Integer ID_recom,@ModelAttribute("recompensas") Recompensas recompensas){
+        //Método para actualizar a una recompensas que sera llamado a traves de su id
+        Recompensas actual = recompensasservice.get(ID_recom);
+        actual.setID_recom(ID_recom);
+        actual.setNom_recom(recompensas.getNom_recom());
+        actual.setDescri_recom(recompensas.getDescri_recom());
+        actual.setImagen(recompensas.getImagen());
+        actual.setPuntos_necesarios(recompensas.getPuntos_necesarios());
+        actual.setActivo(recompensas.isActivo());
+        recompensasservice.update(actual);
+        return "redirect:/api/dashboard";
+    }
+    
+    @GetMapping("/recompensas/eliminar/{ID_recom}")
+    public String EliminarRec(@PathVariable Integer ID_recom){
+        //Método para eliminar una recompensas a traves de su id
+        recompensasservice.delete(ID_recom);
+        return "redirect:/api/dashboard";
+    }
+    
 }

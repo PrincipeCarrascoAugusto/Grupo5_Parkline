@@ -79,6 +79,7 @@
         <h2>Registro de Empleado</h2>
         <form role="form" th:action="@{/guardaremp}" th:object="${empleado}">
             <table>                  
+<<<<<<< HEAD
                 <tr>
                     <td><label class="form-label">Nombres</label></td>
                     <td><input type="text" th:field="*{nombre_empl}" class="form-control"></td>
@@ -110,6 +111,61 @@
                 <tr>
                     <td><label class="form-label">Contraseña</label></td>
                     <td><input type="text" th:field="*{contrasena}" class="form-control"></td>
+=======
+                <tr><td><label class="form-label">Nombres</label></td>
+                    <td> <input type="text" th:field="*{nombre_empl}" class="form-control" >
+                        <small class="text-danger" th:if="${#fields.hasErrors('nombre_empl')}" th:text="${#fields.errors('nombre_empl')[0]}"></small>
+                    </td>
+                    
+                </tr>
+                
+                <tr>
+                    <td><label class="form-label">Apellidos</label></td>
+                    <td>
+                        <input type="text" th:field="*{apellido_empl}" class="form-control">
+                        <small class="text-danger" th:if="${#fields.hasErrors('apellido_empl')}" th:text="${#fields.errors('apellido_empl')[0]}"></small>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td><label class="form-label">DNI</label></td>
+                    <td>
+                        <input type="text" th:field="*{dni}" class="form-control">
+                        <small class="text-danger" th:if="${#fields.hasErrors('dni')}" th:text="${#fields.errors('dni')[0]}"></small>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td><label class="form-label">Teléfono</label></td>
+                    <td>
+                        <input type="text" th:field="*{telefono}" class="form-control">
+                        <small class="text-danger" th:if="${#fields.hasErrors('telefono')}" th:text="${#fields.errors('telefono')[0]}"></small>
+                    </td>
+                </tr>
+
+                
+                <tr>
+                    <td><label class="form-label">Email</label></td>
+                    <td>
+                        <input type="text" th:field="*{email}" class="form-control">
+                        <small class="text-danger" th:if="${#fields.hasErrors('email')}" th:text="${#fields.errors('email')[0]}"></small>
+                    </td>
+                </tr>
+
+                
+                <tr><td> <label class="form-label">Rol</label></td>
+                    <td> <select th:field="*{rol}"   class="form-select">
+                            <option th:each="r : ${roles}"
+                                    th:value="${r}"
+                                    th:text="${r}"></option>                      
+                         </select></td>
+                </tr> 
+                
+                <tr><td><label class="form-label">Contraseña</label></td>
+                    <td> <input type="text" th:field="*{contrasena}" class="form-control" >
+                        <small class="text-danger" th:if="${#fields.hasErrors('contrasena')}" th:errors="*{contrasena}"></small>
+                    </td>
+>>>>>>> origin/Miguel
                 </tr>
                 <tr>                   
                     <td align="center" colspan="2">
