@@ -33,10 +33,6 @@ public class Usuarios {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getNombre() {
         return nombre;
     }
@@ -77,13 +73,19 @@ public class Usuarios {
         this.email = email;
     }
 
-    public String getPassword() {
+    public String getContraseña() {
         return contraseña;
     }
 
-    public void setPassword(String password) {
-        this.contraseña = password;
+    public void setContraseña(String contraseña) {
+        this.contraseña = contraseña;
     }
+
+    
+    
+    
+    
+    
     
     
     

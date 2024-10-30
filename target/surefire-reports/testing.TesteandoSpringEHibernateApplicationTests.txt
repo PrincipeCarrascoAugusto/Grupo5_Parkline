@@ -1,8 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: testing.TesteandoSpringEHibernateApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.081 s <<< FAILURE! - in testing.TesteandoSpringEHibernateApplicationTests
-testing.TesteandoSpringEHibernateApplicationTests  Time elapsed: 0.081 s  <<< ERROR!
-java.lang.NoClassDefFoundError: ch/qos/logback/core/joran/action/AbstractEventEvaluatorAction
-Caused by: java.lang.ClassNotFoundException: ch.qos.logback.core.joran.action.AbstractEventEvaluatorAction
-
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.376 s - in testing.TesteandoSpringEHibernateApplicationTests
