@@ -9,29 +9,24 @@
         body {
             background: #282c34;
             animation: color-change 6s infinite alternate;
+            display: flex; /* Usar Flexbox para centrar */
+            align-items: center; /* Centrar verticalmente */
+            justify-content: center; /* Centrar horizontalmente */
+            height: 100vh; /* Altura total de la ventana */
+            margin: 0; /* Quitar cualquier margen */
         }
 
         @keyframes color-change {
-            0% {
-                background-color: #282c34;
-            }
-            25% {
-                background-color: #3d3d3d;
-            }
-            50% {
-                background-color: #4d4d4d;
-            }
-            75% {
-                background-color: #5d5d5d;
-            }
-            100% {
-                background-color: #666666;
-            }
+            0% { background-color: #282c34; }
+            25% { background-color: #3d3d3d; }
+            50% { background-color: #4d4d4d; }
+            75% { background-color: #5d5d5d; }
+            100% { background-color: #666666; }
         }
 
         .container {
             max-width: 600px; /* Ancho máximo del formulario */
-            margin: 0 auto; /* Centramos el contenedor */
+            margin: 0 auto; /* Centramos el contenedor horizontalmente */
             padding: 20px; /* Espacio alrededor del formulario */
             background-color: rgba(255, 255, 255, 0.9); /* Fondo más claro para mejor contraste */
             border-radius: 10px; /* Bordes redondeados */
@@ -76,6 +71,7 @@
             padding: 12px 20px; /* Aumentar el tamaño del botón */
             font-size: 16px; /* Aumentar el tamaño de la fuente del botón */
         }
+
     </style>
 </head>
 <body>
@@ -116,7 +112,7 @@
                     <td><input type="text" th:field="*{contrasena}" class="form-control"></td>
                 </tr>
                 <tr>                   
-                    <td align="center">
+                    <td align="center" colspan="2">
                         <br><button type="submit" class="btn btn-primary">Registrar</button>
                     </td>
                 </tr>          
