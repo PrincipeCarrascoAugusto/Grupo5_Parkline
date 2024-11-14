@@ -4,24 +4,24 @@ const container = document.getElementById('container');
 const showSignUpButton = document.getElementById('show-signup');
 const showLoginButton = document.getElementById('show-login');
 
-// Muestra el formulario de inicio de sesión al cargar la página
-document.addEventListener('DOMContentLoaded', () => {
-    signUpContainer.classList.add('hidden'); // Oculta el registro al inicio
-});
-
-showSignUpButton.addEventListener('click', () => {
-    container.classList.add('active');
-    signInContainer.classList.add('hidden');
-    signUpContainer.classList.remove('hidden');
-});
-
-showLoginButton.addEventListener('click', () => {
-    container.classList.remove('active');
-    signUpContainer.classList.add('hidden');
-    signInContainer.classList.remove('hidden');
-});
-
-    
+//// Muestra el formulario de inicio de sesión al cargar la página
+//document.addEventListener('DOMContentLoaded', () => {
+//    signUpContainer.classList.add('hidden'); // Oculta el registro al inicio
+//});
+//
+//showSignUpButton.addEventListener('click', () => {
+//    container.classList.add('active');
+//    signInContainer.classList.add('hidden');
+//    signUpContainer.classList.remove('hidden');
+//});
+//
+//showLoginButton.addEventListener('click', () => {
+//    container.classList.remove('active');
+//    signUpContainer.classList.add('hidden');
+//    signInContainer.classList.remove('hidden');
+//});
+//
+//    
 
 //Funcion para darle animacion a la palabra "ParkLine"
 const companyName = "ParkLine";
