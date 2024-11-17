@@ -11,7 +11,7 @@
 	<groupId>Parking-2</groupId>
 	<artifactId>prueba-parking</artifactId>
 	<version>v1.0</version>
-	<name>ParkLine-2</name>
+	<name>ParkLinee</name>
 	<description>probando el envio de datos con spring boot e hibernate para ParkLine
 </description>
 	<url/>

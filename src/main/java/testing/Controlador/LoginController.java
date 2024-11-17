@@ -3,6 +3,7 @@ package testing.controlador;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,6 +30,19 @@ public class LoginController {
         model.addAttribute("success",false);
         return "registro"; 
     }
+    
+   @GetMapping("/perfilcli")
+   public String perfil(Authentication auth,Model model){
+      Usuarios usuarios = repo.findByEmail(auth.getName());
+      model.addAttribute("appUser",usuarios);
+      return "perfilcli";
+   }
+    
+    
+    
+    
+    
+    
 
     // Procesar el registro de usuario
     @PostMapping("/registro")
@@ -48,9 +62,7 @@ public class LoginController {
         }
 
         // Si hay errores de validación, imprimir los detalles de los errores
-        if (result.hasErrors()) {
-            return "registro";
-        }
+        if (result.hasErrors()) { return "registro"; }
 
         try {
             var bCryptEncoder = new BCryptPasswordEncoder();
@@ -75,14 +87,7 @@ public class LoginController {
 
             System.out.println("Usuario registrado correctamente con rol: " + newusuario.getRol());
             
-            // Redirigir según el rol
-            if (newusuario.getRol().equals("admin") || newusuario.getRol().equals("empleado")) {
-                System.out.println("Redirigiendo a /api/** con rol: " + newusuario.getRol());
-                session.setAttribute("userRole", newusuario.getRol());  // Almacenar el rol en la sesión
-                return "redirect:/api/**";  // Redirigir a la ruta de API
-            } else {
-                System.out.println("El usuario no tiene rol de admin o empleado.");
-            }
+            
 
         } catch (Exception ex) {
             result.addError(new FieldError("registerDto", "nombre", ex.getMessage()));

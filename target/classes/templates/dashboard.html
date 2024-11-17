@@ -10,6 +10,39 @@
         <link rel="stylesheet" href="/css/styles.css">
         <title>Dashboard Parkline</title>
     </head>
+    
+    <nav>
+        
+        <ul class="nav-item dropdown" sec:authorize="hasRole('admin')">
+                              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                 Administrador
+                              </a>
+                              <ul class="dropdown-menu">
+                                  <li><a class="dropdown-item" href="/profile">Profile</a></li>
+                                  <li><a class="dropdown-item" href="/configuration">Configurations</a></li>
+                                  <li><a class="dropdown-item" href="/details">Details action</a></li>
+                              </ul>
+                          </ul>
+
+                            <ul class="nav-item dropdown" sec:authorize="hasRole('cliente')">
+                              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                 Cliente
+                              </a>
+                              <ul class="dropdown-menu">
+                                  <li><a class="dropdown-item" href="/profile">Profile</a></li>
+                                  <li><a class="dropdown-item" href="/orders">Orders</a></li>                             
+                              </ul>
+                          </ul>
+
+                          <form sec:authorize='isAuthenticated()' method='post' action='/logout'>
+                              <input type='hidden' th:name='${_csrf.parameterName}'
+                                     th:value='${_csrf.token}'/>
+                              <button type='submit' class='btn btn-danger'>Logout</button>
+                          </form>
+
+
+    </nav>
+    
     <body>
         <div class="dashboard-container">
             <!-- Sidebar Menu -->
@@ -22,6 +55,36 @@
                     <li><a href="#" onclick="mostrarSeccion('recompensas')">Recompensas</a></li>
                     <li><a href="#" onclick="mostrarSeccion('usuarios')">Usuarios</a></li>
                     <li><a href="#" onclick="mostrarSeccion('historial')">Historial</a></li>
+                    <li>
+                        
+                        <ul class="nav-item dropdown" sec:authorize="hasRole('admin')">
+                              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                 Administrador
+                              </a>
+                              <ul class="dropdown-menu">
+                                  <li><a class="dropdown-item" href="/profile">Profile</a></li>
+                                  <li><a class="dropdown-item" href="/configuration">Configurations</a></li>
+                                  <li><a class="dropdown-item" href="/details">Details action</a></li>
+                              </ul>
+                          </ul>
+
+                            <ul class="nav-item dropdown" sec:authorize="hasRole('cliente')">
+                              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                 Cliente
+                              </a>
+                              <ul class="dropdown-menu">
+                                  <li><a class="dropdown-item" href="/profile">Profile</a></li>
+                                  <li><a class="dropdown-item" href="/orders">Orders</a></li>                             
+                              </ul>
+                          </ul>
+
+                          <form sec:authorize='isAuthenticated()' method='post' action='/logout'>
+                              <input type='hidden' th:name='${_csrf.parameterName}'
+                                     th:value='${_csrf.token}'/>
+                              <button type='submit' class='btn btn-danger'>Logout</button>
+                          </form>
+                </ul>
+                    </li>
                 </ul>
             </nav>
 
