@@ -22,4 +22,9 @@ public class HomeController {
         modelo.addAttribute("listareserva", resService.get()); 
         return "index"; //retorna al index
     }
+    
+    @GetMapping("/login")
+    public String login(){
+        return "login";
+    }
 }
