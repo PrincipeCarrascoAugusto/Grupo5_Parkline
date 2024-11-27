@@ -19,6 +19,50 @@ body {
     color: white;
     padding: 15px;
     height: 100vh; /* Asegura que la barra lateral ocupe toda la altura */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+/* Estilo para el dropdown */
+.dropdown {
+    position: relative;
+}
+
+.dropdown-toggle {
+    background-color: #34495e;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    display: block;
+    width: 100%;
+}
+
+/* Estilo para las opciones dentro del dropdown */
+.dropdown-menu {
+    display: none; /* Ocultar las opciones por defecto */
+    position: absolute;
+    background-color: #34495e;
+    border-radius: 5px;
+    list-style: none;
+    padding: 10px 0;
+    width: 100%;
+}
+
+.dropdown-menu .dropdown-item {
+    padding: 10px;
+    color: white;
+    text-decoration: none;
+}
+
+/* Efecto hover para las opciones dentro del dropdown */
+.dropdown-menu .dropdown-item:hover {
+    background-color: #3498db;
+}
+
+/* Mostrar el dropdown al hacer clic */
+.dropdown.show .dropdown-menu {
+    display: block;
 }
 
 .sidebar h2 {

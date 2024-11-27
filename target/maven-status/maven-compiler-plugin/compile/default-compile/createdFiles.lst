@@ -1,8 +1,8 @@
 testing\Controlador\ControlNosotros.class
+testing\DAO\UsuariosDAOimpl.class
 testing\Servicio\ReservaService.class
 testing\TesteandoSpringEHibernateApplication.class
 testing\Servicio\RecompensasServicioimpl.class
-testing\Servicio\UsuarioRepositorio.class
 testing\DAO\ReservaDAO.class
 testing\Controlador\LoginController.class
 testing\security\SecurityConfig.class
@@ -11,6 +11,7 @@ testing\DAO\ReservaDAOimpl.class
 testing\Controlador\HomeController.class
 testing\Servicio\RecompensasService.class
 testing\modelo\RegisterDto.class
+testing\DAO\UsuariosDAO.class
 testing\Servicio\ReservaServicioimpl.class
 testing\Servicio\empleadoService.class
 testing\Servicio\UsuarioServicio.class
@@ -19,7 +20,11 @@ testing\Controlador\ControlEmpleado.class
 testing\modelo\Recompensas.class
 testing\modelo\Usuarios.class
 testing\Controlador\ControlRecompensas.class
+testing\Servicio\UsuariosDashService.class
+testing\repositorio\UsuariosRepositorio.class
 testing\Controlador\ControlReservas.class
+testing\Servicio\UsuariosDashServiceimpl.class
+testing\security\SecurityConfig$1.class
 testing\DAO\empleadoDAO.class
 testing\modelo\empleado.class
 testing\DAO\RecompensasDAOimpl.class

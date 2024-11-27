@@ -1,64 +1,66 @@
 <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
         <img src="/img/logoact.png" alt="Logo" class="log">
-        
+
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto"> 
-                <li class="nav-item">
-                    <a class="nav-link" href="login">Iniciar sesión</a>
+            <ul class="navbar-nav me-auto">
+                <!-- Muestra el link solo si el usuario no está autenticado -->
+                <li class="nav-item" sec:authorize="!isAuthenticated()">
+                    <a class="nav-link" href="/login">Iniciar sesión</a>
                 </li>
             </ul>
-            <ul class="navbar-nav ms-auto"> 
+            <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="parkline">Inicio</a>
+                    <a class="nav-link" href="/parkline">Inicio</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#mapa">Mapa</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="reservas">Reservas</a>
+                    <a class="nav-link" href="/reservas">Reservas</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="Recompensas">Recompensas</a>
+                    <a class="nav-link" href="/Recompensas">Recompensas</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="Nosotros">Nosotros</a>
+                    <a class="nav-link" href="/Nosotros">Nosotros</a>
                 </li>
                 
-                
+                <!-- Dropdown para Administrador -->
+                <li class="nav-item dropdown" sec:authorize="hasRole('admin')">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Administrador
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/profile">Profile</a></li>
+                        <li><a class="dropdown-item" href="/configuration">Configurations</a></li>
+                        <li><a class="dropdown-item" href="/details">Details action</a></li>
+                    </ul>
+                </li>
+
+                <!-- Dropdown para Cliente -->
+                <li class="nav-item dropdown" sec:authorize="hasRole('cliente')">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Cliente
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/perfilcli">Profile</a></li>
+                        <li><a class="dropdown-item" href="/orders">Orders</a></li>
+                    </ul>
+                </li>
+
+                <!-- Botón Logout -->
+                <li class="nav-item" sec:authorize='isAuthenticated()'>
+                    <form method='post' action='/logout' class="d-inline">
+                        <input type='hidden' th:name='${_csrf.parameterName}' th:value='${_csrf.token}' />
+                        <button type='submit' class='btn btn-danger nav-link'>Logout</button>
+                    </form>
+                </li>
             </ul>
-            
-            <ul class="nav-item dropdown" sec:authorize="hasRole('admin')">
-                          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                             Administrador
-                          </a>
-                          <ul class="dropdown-menu">
-                              <li><a class="dropdown-item" href="/profile">Profile</a></li>
-                              <li><a class="dropdown-item" href="/configuration">Configurations</a></li>
-                              <li><a class="dropdown-item" href="/details">Details action</a></li>
-                          </ul>
-                      </ul>
-                      
-                        <ul class="nav-item dropdown" sec:authorize="hasRole('client')">
-                          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                             Cliente
-                          </a>
-                          <ul class="dropdown-menu">
-                              <li><a class="dropdown-item" href="/profile">Profile</a></li>
-                              <li><a class="dropdown-item" href="/orders">Orders</a></li>                             
-                          </ul>
-                      </ul>
-                      
-                      <form sec:authorize='isAuthenticated()' method='post' action='/logout'>
-                          <input type='hidden' th:name='${_csrf.parameterName}'
-                                 th:value='${_csrf.token}'/>
-                          <button type='submit' class='btn btn-danger'>Logout</button>
-                      </form>
-            
-            
         </div>
     </div>
 </nav>
