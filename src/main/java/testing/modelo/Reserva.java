@@ -18,18 +18,33 @@ public class Reserva {
     //Definimos columnas en la tabla asociadas a los campos de la clase
     @Column
     private String usuario;
+    
+    
     @Column
     private String placa;
+    
+    
     @Column
     private LocalTime hora_entrada;
+    
+    
     @Column
     private LocalTime hora_salida;
+    
     @Column
     private String espacio;
+    
+    
     @Column
     private Double pago;
+    
+    
     @Column
     private LocalDate fecha;
+    
+    @ManyToOne
+    @JoinColumn(name = "id_lugar", nullable = false)
+    private LugarEstacionamiento lugarEstacionamiento;
     
     //Constructor
     public Reserva(){
@@ -60,7 +75,7 @@ public class Reserva {
     public String getEspacio() {return espacio;}
 
     public void setEspacio(String espacio) {this.espacio = espacio;}
-
+    
     public Double getPago() {return pago;}
 
     public void setPago(Double pago) {this.pago = pago;}
@@ -68,5 +83,9 @@ public class Reserva {
     public LocalDate getFecha() {return fecha;}
 
     public void setFecha(LocalDate fecha) {this.fecha = fecha;}
+
+    public LugarEstacionamiento getLugarEstacionamiento() {return lugarEstacionamiento;}
+
+    public void setLugarEstacionamiento(LugarEstacionamiento lugarEstacionamiento) {this.lugarEstacionamiento = lugarEstacionamiento;}
 
 }

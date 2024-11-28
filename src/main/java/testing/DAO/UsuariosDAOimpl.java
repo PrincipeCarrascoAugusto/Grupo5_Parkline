@@ -24,7 +24,7 @@ public class UsuariosDAOimpl implements UsuariosDAO{
         
         // Crea un query para obtener una lista de empleados, ordenada por el nombre de la BD
         Query<Usuarios> query = currentSession.createQuery(
-                        "from usuarios order by nombre", Usuarios.class);
+                        "from Usuarios order by nombre", Usuarios.class);
         //Ejecuta la consulta y obtiene el resultado como una lista
         List<Usuarios> list = query.getResultList();
         return list;
@@ -42,21 +42,21 @@ public class UsuariosDAOimpl implements UsuariosDAO{
     }
 
     @Override
-    public void save(Usuarios usu) {
+    public void save(Usuarios usua) {
         //Desenvuelve la sesión de Hibernate
         Session currentSession = entityManager.unwrap(Session.class);
         
         // Guarda o actualiza el empleado en la BD, dependiendo de si ya existe
-        currentSession.saveOrUpdate(usu);
+        currentSession.saveOrUpdate(usua);
     }
 
     @Override
-    public void update(Usuarios usu) {
+    public void update(Usuarios usua) {
         //Desenvuelve la sesión de Hibernate
         Session currentSession = entityManager.unwrap(Session.class);
         
         //Actualiza un empleado existente en la BD
-        currentSession.update(usu);
+        currentSession.update(usua);
     }
 
     @Override

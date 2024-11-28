@@ -14,6 +14,7 @@ import testing.Servicio.RecompensasService;
 import testing.modelo.Reserva;
 import testing.Servicio.empleadoService;
 import testing.Servicio.ReservaService;
+import testing.Servicio.UsuariosDashService;
 
 //Indica que la clase es un controlador
 @Controller
@@ -29,6 +30,9 @@ public class ControlDashboard {
     
     @Autowired
     private RecompensasService recomService;
+    
+    @Autowired
+    private UsuariosDashService usudashService;
     
     // Lista de espacios disponibles
     private List<String> listaEspacios = Arrays.asList("A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4");

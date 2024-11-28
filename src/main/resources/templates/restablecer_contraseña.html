@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Restablecer Contraseña</title>
+</head>
+<body>
+    <!-- Mostrar mensaje de error si el token no es válido -->
+    <div th:if="${error}">
+        <p style="color: red;" th:text="${error}"></p>
+    </div>
+
+    <!-- Mostrar el formulario para restablecer la contraseña -->
+    <form th:action="@{/restablecer}" method="post">
+        <input type="hidden" name="token" th:value="${token}" />
+        <div>
+            <label for="nuevaContraseña">Nueva Contraseña:</label>
+            <input type="password" id="nuevaContraseña" name="nuevaContraseña" required>
+        </div>
+        <div>
+            <label for="confirmarContraseña">Confirmar Contraseña:</label>
+            <input type="password" id="confirmarContraseña" name="confirmarContraseña" required>
+        </div>
+        <button type="submit">Restablecer Contraseña</button>
+    </form>
+
+
+    <!-- Mostrar mensaje de éxito después de restablecer la contraseña -->
+    <div th:if="${mensaje}">
+        <p style="color: green;" th:text="${mensaje}"></p>
+    </div>
+</body>
+</html>

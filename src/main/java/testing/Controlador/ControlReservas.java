@@ -6,6 +6,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.apache.commons.io.FileUtils;
@@ -33,7 +36,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import testing.Servicio.ReservaService;
+import testing.modelo.LugarEstacionamiento;
 import testing.modelo.Reserva;
+import testing.repositorio.LugarEstacionamientoRepositorio;
 
 //Indica que la clase es un controlador
 @Controller
@@ -42,37 +47,66 @@ public class ControlReservas {
     //Inyecta el servicio reserva
     @Autowired
     private ReservaService resService;
+    
+    @Autowired
+    private LugarEstacionamientoRepositorio lugarEstacionamientoRepositorio;
+    
+    
+    
+    
     //Lista de espacios
     List<String> listaespacio = Arrays.asList("A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4");
 
     @GetMapping("/reservas")
     public String mostrarReservas(Model modelo) {
-        //Crea un nuevo objeto reserva, trae las lissta de espacio y retorna a Reservas
+        // Crear un nuevo objeto Reserva
         Reserva res = new Reserva();
-        modelo.addAttribute("reserva", res);
+
+
+        // Agregar la lista de espacios disponibles
         modelo.addAttribute("espacio", listaespacio);
+
+        // Pasar el objeto reserva al modelo
+        modelo.addAttribute("reserva", res);
+
+        // Retornar la vista "Reservas"
         return "Reservas";
     }
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     @GetMapping("/guarres")
     public String GuadarRes(@ModelAttribute("reserva") Reserva res, Model modelo) {
         try {
+            // Listar todos los lugares de estacionamiento disponibles
+            List<LugarEstacionamiento> listaespacio = lugarEstacionamientoRepositorio.findAll(); // Asegúrate de tener este repositorio bien configurado
+
             // Validaciones utilizando Preconditions
             Preconditions.checkArgument(res.getUsuario() != null && !res.getUsuario().trim().isEmpty(), "El nombre de usuario es obligatorio");
             Preconditions.checkArgument(res.getPlaca() != null && !res.getPlaca().trim().isEmpty(), "La placa del vehículo es obligatoria");
             Preconditions.checkArgument(res.getHora_entrada().isBefore(res.getHora_salida()), "La hora de entrada debe ser anterior a la hora de salida");        
             Preconditions.checkArgument(res.getFecha() != null, "La fecha es obligatoria");
-            // Guarda el objeto Reserva en la BD
-            resService.save(res);
-            return "redirect:/parkline"; // Redirige a la página principal después de guardar
+
+            // Agregar la lista de espacios y la reserva al modelo
+            modelo.addAttribute("espacio", listaespacio);
+            modelo.addAttribute("reserva", res);
+
+            return "Reservas"; // Retorna la vista de reservas con los datos
         } catch (IllegalArgumentException e) {
             // Agrega un mensaje de error al modelo
             modelo.addAttribute("error", e.getMessage());
-            modelo.addAttribute("espacio", listaespacio);
-            modelo.addAttribute("reserva", res); // Mantiene los datos del formulario
-            return "Reservas"; // Retorna a la vista de index para que el usuario vea el mensaje de error
+            return "Reservas"; // Vuelve a mostrar el formulario con el error
         }
     }
+
 
     @PostMapping("/guardar")
     public String handleReserva(@ModelAttribute("reserva") Reserva nuevaReserva, Model modelo) {
@@ -82,18 +116,36 @@ public class ControlReservas {
             Preconditions.checkArgument(nuevaReserva.getPlaca() != null && !nuevaReserva.getPlaca().trim().isEmpty(), "La placa del vehículo es obligatoria");
             Preconditions.checkArgument(nuevaReserva.getHora_entrada().isBefore(nuevaReserva.getHora_salida()), "La hora de entrada debe ser anterior a la hora de salida");
             Preconditions.checkArgument(nuevaReserva.getFecha() != null, "La fecha es obligatoria");
+
+            // Asignar el nombre del lugar al campo 'espacio' después de guardar
+            LugarEstacionamiento lugar = lugarEstacionamientoRepositorio.findById(nuevaReserva.getLugarEstacionamiento().getId_lugar())
+                .orElse(null);
+
+            if (lugar != null) {
+                nuevaReserva.setEspacio(lugar.getNom()); // Asigna el nombre del lugar a 'espacio'
+            } else {
+                nuevaReserva.setEspacio("No disponible");
+            }
+
             // Guarda la nueva reserva utilizando el servicio
             resService.save(nuevaReserva);
+
             return "redirect:/api/dashboard"; // Redirige al dashboard después de guardar
         } catch (IllegalArgumentException e) {
             // Agrega un mensaje de error al modelo
             modelo.addAttribute("error", e.getMessage());
-            // Retorna a la vista de reservas para que el usuario vea el mensaje de error
-            modelo.addAttribute("espacio", listaespacio);
+            modelo.addAttribute("espacio", listaespacio); // Agregar lista de espacios al modelo
             modelo.addAttribute("reserva", nuevaReserva); // Mantiene los datos del formulario
-            return "nuevareserva"; // Retorna a la vista de reservas
+            return "nuevareserva"; // Retorna a la vista de reservas con el mensaje de error
         }
     }
+
+
+
+
+
+
+
 
     // Método para generar el reporte de reservas en Excel y almacenarlo
     @GetMapping("/api/reporte/excel")
@@ -167,7 +219,7 @@ public class ControlReservas {
                 row.createCell(2).setCellValue(reserva.getPlaca());
                 row.createCell(3).setCellValue(reserva.getHora_entrada().toString());
                 row.createCell(4).setCellValue(reserva.getHora_salida().toString());
-                row.createCell(5).setCellValue(reserva.getEspacio());
+                row.createCell(5).setCellValue(reserva.getEspacio()); 
                 row.createCell(6).setCellValue(reserva.getPago());
                 row.createCell(7).setCellValue(reserva.getFecha().toString());
 
