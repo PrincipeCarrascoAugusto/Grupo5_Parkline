@@ -107,9 +107,9 @@
                 <section id="Usuarios" class="seccion" style="display:none;">
                     <div class="search-add-bar">
                         <input type="text" id="buscarUsuarios" onkeyup="buscarEnTabla('buscarEspacios', 'espacios-body')" placeholder="Buscar espacios...">
-                        <button onclick="agregarUsuarios()">Agregar Usuarios</button>
+                        <a th:href="@{/nuevousu}" class="btn btn-primary" role="button">Agregar Empleado</a>
                     </div>
-                    <h2>Espacios Disponibles</h2>
+                    <h2>Usuarios </h2>
                     <table>
                         <thead>
                             <tr>                           
@@ -124,7 +124,21 @@
                             </tr>
                         </thead>
                         <tbody id="usuarios-body">
-                            <!-- Datos llenados por JavaScript -->
+                            <tr th:each="usu, estado : ${listausuarios}" >                         
+                                <td th:text="${usu.id}"></td>
+                                <td th:text="${usu.nombre}"></td>
+                                <td th:text="${usu.apellido}"></td>
+                                <td th:text="${usu.dni}"></td>
+                                <td th:text="${usu.telefono}"></td>
+                                <td th:text="${usu.email}"></td>
+                                <td th:text="${usu.rol}"></td>
+                                <td th:text="${usu.contrasena}"></td>
+                                <td><a  class="btn btn-warning"> Editar</a>
+                                    <!-- th:href="@{/empleado/editar/{id}(id=${emp.id})}" -->
+                                    <a  class="btn btn-danger"> Eliminar</a>
+                                    <!-- th:href="@{/empleado/eliminar/{id}(id=${emp.id})}" -->
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </section>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Verificar Token</title>
+</head>
+<body>
+    <h2>Ingrese el código de recuperación</h2>
+    <span>Recuerda que el token expirara en 1 dia</span>
+    <form action="/restablecer" method="get">
+        <label for="token">Código:</label>
+        <input type="text" id="token" name="token" required>
+        <button type="submit">Verificar</button>
+    </form>
+    <!-- Mostrar mensaje de error si el token no es válido -->
+    <p th:if="${error}" style="color: red;" th:text="${error}"></p>
+</body>
+</html>

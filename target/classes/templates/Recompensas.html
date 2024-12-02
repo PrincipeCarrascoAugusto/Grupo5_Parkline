@@ -23,30 +23,31 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav me-auto">
-                        <!-- Muestra el link solo si el usuario no está autenticado -->
                         <li class="nav-item" sec:authorize="!isAuthenticated()">
-                            <a class="nav-link" href="/login">Iniciar sesión</a>
+                            <a class="nav-link" href="login">Iniciar sesión</a>
                         </li>
                     </ul>
-                    <ul class="navbar-nav ms-auto">
+                    <ul class="navbar-nav ms-auto"> 
                         <li class="nav-item">
-                            <a class="nav-link" href="/parkline">Inicio</a>
+                            <a class="nav-link" href="parkline">Inicio</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#mapa">Mapa</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/reservas">Reservas</a>
+                            <a class="nav-link" href="reservas">Reservas</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/Recompensas">Recompensas</a>
+                            <a class="nav-link" href="Recompensas">Recompensas</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/Nosotros">Nosotros</a>
+                            <a class="nav-link" href="Nosotros">Nosotros</a>
                         </li>
+
+
+
 
                         <!-- Dropdown para Administrador -->
                         <li class="nav-item dropdown" sec:authorize="hasRole('admin')">

@@ -1,6 +1,7 @@
 package testing.Controlador;
 
 //Librerias
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.*;
 import java.util.Arrays;
 import java.util.List;
@@ -17,16 +18,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import testing.Servicio.*;
+import testing.modelo.LugarEstacionamiento;
 import testing.modelo.Reserva;
 import testing.modelo.empleado;
 import testing.modelo.Recompensas;
+import testing.modelo.RegisterDto;
+import testing.modelo.Usuarios;
+import testing.repositorio.LugarEstacionamientoRepositorio;
+import testing.repositorio.ReservaRepositorio;
+import testing.repositorio.UsuariosRepositorio;
 
 
 //Indica que la clase es un controlador 
@@ -44,14 +55,31 @@ public class ControlEmpleado {
     @Autowired
     private RecompensasService recompensasservice;
     
+    @Autowired
+    private UsuariosDashService usuariosservice;
+    
+    @Autowired
+    private UsuariosRepositorio repo;
+    
+    @Autowired
+    private ReservaRepositorio reserepo;
+    
+    @Autowired
+    private LugarEstacionamientoRepositorio lugarEstacionamientoRepositorio;
+
+    
     //Listas de roles y espacios disponibles
     List<String> listarol = Arrays.asList("Administrador","Empleado");
-    List<String> listaespacio = Arrays.asList("A1","A2","A3","A4","B1","B2","B3","B4");
+    List<String> listaestado = Arrays.asList("Disponible","Reservado","Ocupado");
+    
+    
+    // Lista de todos los lugares disponibles (sin filtro por estado)
+    public List<LugarEstacionamiento> obtenerLugaresDisponibles() {
+        return lugarEstacionamientoRepositorio.findAll();
+    }
+
     
     //CRUD para los empleados
-    
-    
-    
     @GetMapping("/nuevoemp")
     public String NuevoEmp(Model modelo){
         //Se crea un nuevo objeto "emp", lo agrega al modelo junto con la lista de roles y retorna la vista "nuevoempleado"
@@ -107,26 +135,40 @@ public class ControlEmpleado {
 
     // CRUD para la reserva
     @GetMapping("/nuevares")
-    public String NuevoRes(Model modelo){
-        //Se crea un nuevo objeto "res", lo agrega al modelo junto con la lista de roles y retorna la vista "nuevareserva"
+    public String NuevoRes(Model modelo) {
+        // Se crea un nuevo objeto "res", lo agrega al modelo junto con la lista de espacios obtenida de la base de datos
         Reserva res = new Reserva();
+        List<LugarEstacionamiento> listaEspacios = obtenerLugaresDisponibles(); // O usar obtenerTodosLosLugares()
         modelo.addAttribute("reserva", res);
-        modelo.addAttribute("espacio", listaespacio);
+        modelo.addAttribute("espacio", listaEspacios);
         return "nuevareserva";
     }
+    
+ @GetMapping("/guardarres")
+public String GuardarRes(@ModelAttribute("reserva") Reserva res) {
+    System.out.println("Método GuardarRes invocado"); // Este mensaje debe aparecer al acceder a la URL
 
-    @GetMapping("/guardarres")
-    public String GuardarRes(@ModelAttribute("reserva") Reserva res){
-        //Valida el objeto reserva, si es asi te lleva la dashboard
-        reservaservice.save(res);
-        return "redirect:/api/dashboard";
-    }
+    // Guardar la reserva
+    reservaservice.save(res);
+
+    // Actualizar el campo 'espacio' después de guardar
+    reserepo.actualizarEspacio(res.getID());
+    System.out.println("Espacio actualizado para reserva con ID: " + res.getID());
+
+    return "redirect:/api/dashboard";
+}
+    
+
+
+
+
 
     @GetMapping("/reserva/editar/{ID}")
-    public String EditarRes(@PathVariable Integer ID,Model modelo){
-        //Método para llamar a una reserva a traves de su id
-        modelo.addAttribute("reserva",reservaservice.get(ID));
-        modelo.addAttribute("espacio", listaespacio);
+    public String EditarRes(@PathVariable Integer ID, Model modelo) {
+        // Método para editar una reserva a través de su ID
+        Reserva reserva = reservaservice.get(ID);
+        modelo.addAttribute("reserva", reserva);
+        modelo.addAttribute("estados", listaestado); // Pasamos los estados a la vista
         return "editarreserva";
     }
 
@@ -339,5 +381,67 @@ public class ControlEmpleado {
         recompensasservice.delete(ID_recom);
         return "redirect:/api/dashboard";
     }
+    
+    //CRUD para los usuarios
+    @GetMapping("/nuevousu")
+    public String NuevaUsu(Model modelo){
+        //Se crea un nuevo objeto "rec", retorna la vista "nuevareserva"
+        Usuarios usu = new Usuarios();
+        modelo.addAttribute("usuarios", usu);
+        return "nuevousuario";
+    }
+    
+    @PostMapping("/nuevousu")
+    public String nuevoUsuario(Model model, @Valid @ModelAttribute RegisterDto registerDto,
+                               BindingResult result, HttpSession session) {
+
+        // Verificar si las contraseñas coinciden
+        if (!registerDto.getContraseña().equals(registerDto.getConfirmContraseña())) {
+            result.addError(new FieldError("registerDto", "confirmContraseña", "Contraseña y Confirmar contraseña no son iguales"));
+        }
+
+        // Verificar si el email ya está registrado
+        Usuarios usuarios = repo.findByEmail(registerDto.getEmail());
+        if (usuarios != null) {
+            result.addError(new FieldError("registerDto", "email", "El email ya está siendo usado"));
+        }
+
+        // Si hay errores de validación, regresar el formulario con los errores
+        if (result.hasErrors()) {
+            return "nuevousu";  // Retorna la vista del formulario
+        }
+
+        try {
+            var bCryptEncoder = new BCryptPasswordEncoder();
+
+            // Crear el nuevo usuario
+            Usuarios newusuario = new Usuarios();
+            newusuario.setNombre(registerDto.getNombre());
+            newusuario.setApellido(registerDto.getApellido());
+            newusuario.setDni(registerDto.getDni());
+            newusuario.setTelefono(registerDto.getTelefono());
+            newusuario.setEmail(registerDto.getEmail());
+            newusuario.setPuntos_acumulados(0);  // Valor predeterminado
+            newusuario.setRol(registerDto.getRol());  // El rol se obtiene del formulario
+            newusuario.setContraseña(bCryptEncoder.encode(registerDto.getContraseña()));  // Contraseña cifrada
+
+            // Guardar el usuario en la base de datos
+            usuariosservice.save(newusuario);
+
+            // Limpiar los datos del formulario y mostrar mensaje de éxito
+            model.addAttribute("registerDto", new RegisterDto());
+            model.addAttribute("success", true);
+
+            System.out.println("Empleado registrado correctamente con rol: " + newusuario.getRol());
+
+        } catch (Exception ex) {
+            result.addError(new FieldError("registerDto", "nombre", ex.getMessage()));
+            System.out.println("Error al registrar el empleado: " + ex.getMessage());
+        }
+
+        return "nuevousu";  // Retorna la vista del formulario
+    }
+
+    
     
 }
