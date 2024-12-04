@@ -3,9 +3,28 @@
 	 font-weight: 600;
 }
 
+
 body {
-    background: #282c34;
+    background: url('img/esta.gif') center/cover no-repeat;
     animation: color-change 6s infinite alternate;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    height: 100vh;
+    position: relative;
+    z-index: 0;
+}
+/* Añadir una capa con opacidad al fondo */
+body::before  {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4); /* Color oscuro con opacidad */
+    z-index: -1; /* Asegura que se quede detrás del contenido */
 }
 
 @keyframes color-change {
@@ -267,6 +286,19 @@ body {
         text-decoration: none;
         cursor: pointer;
     }
+    
+    .form-control {
+                position: relative;
+                padding: 10px;
+                padding-left: 10px;
+            }
+            .form-control::placeholder {
+                color: #aaa;
+            }
+
+            .form-control:focus::placeholder {
+                color: transparent;
+            }
 
 .modal {
         transition: opacity 0.3s ease;
@@ -286,4 +318,4 @@ body {
             opacity: 1;
         }
     }
- 
+

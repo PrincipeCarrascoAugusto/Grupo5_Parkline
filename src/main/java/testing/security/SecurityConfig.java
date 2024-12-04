@@ -26,6 +26,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
             .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/actuator").permitAll()  // Permitir acceso sin autenticación a /actuator
+                .requestMatchers("/actuator/prometheus").permitAll()  // Permitir acceso sin autenticación a /actuator/prometheus
                 .requestMatchers("/parkline").permitAll()
                 .requestMatchers("/Nosotros").permitAll()
                 .requestMatchers("/Recompensas").permitAll()
