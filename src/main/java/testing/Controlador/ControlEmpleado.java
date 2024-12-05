@@ -144,19 +144,19 @@ public class ControlEmpleado {
         return "nuevareserva";
     }
     
- @GetMapping("/guardarres")
-public String GuardarRes(@ModelAttribute("reserva") Reserva res) {
-    System.out.println("Método GuardarRes invocado"); // Este mensaje debe aparecer al acceder a la URL
+    @GetMapping("/guardarres")
+    public String GuardarRes(@ModelAttribute("reserva") Reserva res) {
+        System.out.println("Método GuardarRes invocado"); // Este mensaje debe aparecer al acceder a la URL
 
-    // Guardar la reserva
-    reservaservice.save(res);
+        // Guardar la reserva
+        reservaservice.save(res);
 
-    // Actualizar el campo 'espacio' después de guardar
-    reserepo.actualizarEspacio(res.getID());
-    System.out.println("Espacio actualizado para reserva con ID: " + res.getID());
+        // Actualizar el campo 'espacio' después de guardar
+        reserepo.actualizarEspacio(res.getID());
+        System.out.println("Espacio actualizado para reserva con ID: " + res.getID());
 
-    return "redirect:/api/dashboard";
-}
+        return "redirect:/api/dashboard";
+    }
     
 
 
@@ -384,64 +384,76 @@ public String GuardarRes(@ModelAttribute("reserva") Reserva res) {
     
     //CRUD para los usuarios
     @GetMapping("/nuevousu")
-    public String NuevaUsu(Model modelo){
-        //Se crea un nuevo objeto "rec", retorna la vista "nuevareserva"
-        Usuarios usu = new Usuarios();
-        modelo.addAttribute("usuarios", usu);
+    public String NuevaUsu(Model model) {
+        model.addAttribute("registerDto", new RegisterDto());
         return "nuevousuario";
     }
-    
+
     @PostMapping("/nuevousu")
-    public String nuevoUsuario(Model model, @Valid @ModelAttribute RegisterDto registerDto,
+    public String nuevoUsuario(Model model, @Valid @ModelAttribute("registerDto") RegisterDto registerDto,
                                BindingResult result, HttpSession session) {
 
-        // Verificar si las contraseñas coinciden
         if (!registerDto.getContraseña().equals(registerDto.getConfirmContraseña())) {
             result.addError(new FieldError("registerDto", "confirmContraseña", "Contraseña y Confirmar contraseña no son iguales"));
         }
 
-        // Verificar si el email ya está registrado
         Usuarios usuarios = repo.findByEmail(registerDto.getEmail());
         if (usuarios != null) {
             result.addError(new FieldError("registerDto", "email", "El email ya está siendo usado"));
         }
 
-        // Si hay errores de validación, regresar el formulario con los errores
         if (result.hasErrors()) {
-            return "nuevousu";  // Retorna la vista del formulario
+            return "nuevousuario";
         }
 
-        try {
-            var bCryptEncoder = new BCryptPasswordEncoder();
+        var bCryptEncoder = new BCryptPasswordEncoder();
+        Usuarios newusuario = new Usuarios();
+        newusuario.setNombre(registerDto.getNombre());
+        newusuario.setApellido(registerDto.getApellido());
+        newusuario.setDni(registerDto.getDni());
+        newusuario.setTelefono(registerDto.getTelefono());
+        newusuario.setEmail(registerDto.getEmail());
+        newusuario.setPuntos_acumulados(0);
+        newusuario.setRol("cliente");
+        newusuario.setContraseña(bCryptEncoder.encode(registerDto.getContraseña()));
 
-            // Crear el nuevo usuario
-            Usuarios newusuario = new Usuarios();
-            newusuario.setNombre(registerDto.getNombre());
-            newusuario.setApellido(registerDto.getApellido());
-            newusuario.setDni(registerDto.getDni());
-            newusuario.setTelefono(registerDto.getTelefono());
-            newusuario.setEmail(registerDto.getEmail());
-            newusuario.setPuntos_acumulados(0);  // Valor predeterminado
-            newusuario.setRol(registerDto.getRol());  // El rol se obtiene del formulario
-            newusuario.setContraseña(bCryptEncoder.encode(registerDto.getContraseña()));  // Contraseña cifrada
+        usuariosservice.save(newusuario);
 
-            // Guardar el usuario en la base de datos
-            usuariosservice.save(newusuario);
+        model.addAttribute("registerDto", new RegisterDto());
+        model.addAttribute("success", true);
 
-            // Limpiar los datos del formulario y mostrar mensaje de éxito
-            model.addAttribute("registerDto", new RegisterDto());
-            model.addAttribute("success", true);
-
-            System.out.println("Empleado registrado correctamente con rol: " + newusuario.getRol());
-
-        } catch (Exception ex) {
-            result.addError(new FieldError("registerDto", "nombre", ex.getMessage()));
-            System.out.println("Error al registrar el empleado: " + ex.getMessage());
-        }
-
-        return "nuevousu";  // Retorna la vista del formulario
+        return "redirect:/api/dashboard";
+    }
+    
+    
+    @GetMapping("/usuario/editar/{id}")
+    public String EditarUsu(@PathVariable Integer id,Model modelo){
+        //Método para llamar a un usuario a traves de su id
+        Usuarios usuarios = usuariosservice.get(id);
+        modelo.addAttribute("usuario", usuarios);
+        return "editarusuario";
     }
 
+    @GetMapping("/usuario/actualizar/{id}")
+    public String ActualizarUsu(@PathVariable Integer id,@ModelAttribute("usuario") Usuarios usuarios){
+        //Método para actualizar a un usuario que sera llamado a traves de su id
+        Usuarios actual = usuariosservice.get(id);
+        actual.setId(id);
+        actual.setNombre(usuarios.getNombre());
+        actual.setApellido(usuarios.getApellido());
+        actual.setDni(usuarios.getDni());
+        actual.setTelefono(usuarios.getTelefono());
+        actual.setEmail(usuarios.getEmail());
+        usuariosservice.update(actual);
+        return "redirect:/api/dashboard";
+    }
     
+    @GetMapping("/usuario/eliminar/{id}")
+    public String EliminarUsu(@PathVariable Integer id){
+        //Método para eliminar un usuario que sera llamado a traves de su id
+        usuariosservice.delete(id);
+        return "redirect:/api/dashboard";
+    }
+
     
 }

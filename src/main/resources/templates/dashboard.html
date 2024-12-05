@@ -104,7 +104,7 @@
                 </section>
 
                 <!-- Sección Usuarios -->
-                <section id="Usuarios" class="seccion" style="display:none;">
+                <section id="usuarios" class="seccion" style="display:none;">
                     <div class="search-add-bar">
                         <input type="text" id="buscarUsuarios" onkeyup="buscarEnTabla('buscarEspacios', 'espacios-body')" placeholder="Buscar espacios...">
                         <a th:href="@{/nuevousu}" class="btn btn-primary" role="button">Agregar Empleado</a>
@@ -119,7 +119,6 @@
                                 <th>Dni</th>
                                 <th>Email</th>
                                 <th>Teléfono</th>
-                                <th>Contraseña</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
@@ -129,14 +128,12 @@
                                 <td th:text="${usu.nombre}"></td>
                                 <td th:text="${usu.apellido}"></td>
                                 <td th:text="${usu.dni}"></td>
-                                <td th:text="${usu.telefono}"></td>
                                 <td th:text="${usu.email}"></td>
-                                <td th:text="${usu.rol}"></td>
-                                <td th:text="${usu.contrasena}"></td>
-                                <td><a  class="btn btn-warning"> Editar</a>
-                                    <!-- th:href="@{/empleado/editar/{id}(id=${emp.id})}" -->
-                                    <a  class="btn btn-danger"> Eliminar</a>
-                                    <!-- th:href="@{/empleado/eliminar/{id}(id=${emp.id})}" -->
+                                <td th:text="${usu.telefono}"></td>
+                                <td><a th:href="@{/usuario/editar/{id}(id=${usu.id})}" class="btn btn-warning"> Editar</a>
+                                     
+                                    <a th:href="@{/usuario/eliminar/{id}(id=${usu.id})}"  class="btn btn-danger"> Eliminar</a>
+                                     
                                 </td>
                             </tr>
                         </tbody>

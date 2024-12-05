@@ -27,6 +27,7 @@ public class UsuariosDAOimpl implements UsuariosDAO{
                         "from Usuarios order by nombre", Usuarios.class);
         //Ejecuta la consulta y obtiene el resultado como una lista
         List<Usuarios> list = query.getResultList();
+        
         return list;
         
     }

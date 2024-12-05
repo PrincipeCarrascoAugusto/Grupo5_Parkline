@@ -43,6 +43,7 @@ public class ControlDashboard {
         modelo.addAttribute("lista", emplService.get());
         modelo.addAttribute("listareserva", resService.get());
         modelo.addAttribute("listarecompensas",recomService.get());
+        modelo.addAttribute("listausuarios", usudashService.get());
         modelo.addAttribute("reserva", new Reserva()); // Modelo para el formulario
         modelo.addAttribute("espacio", listaEspacios); // Agrega la lista de espacios al modelo
         return "dashboard"; 
